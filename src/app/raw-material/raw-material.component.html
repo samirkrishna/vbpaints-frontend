@@ -1,0 +1,70 @@
+<div class="container">
+  <h2>Add Raw Material</h2>
+
+  <form [formGroup]="rawMaterialForm" (ngSubmit)="submit()">
+
+    <div class="form-group">
+      <label>Raw Material Name</label>
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="Enter raw material name" />
+      <small *ngIf="rawMaterialForm.get('name')?.touched && rawMaterialForm.get('name')?.invalid">
+        Name is required
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label>Material Category</label>
+      <select formControlName="category">
+        <option value="">Select Category</option>
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Unit of Measure</label>
+      <select formControlName="unitOfMeasure">
+        <option value="">Select Unit</option>
+        <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Minimum Stock Level</label>
+      <input
+        type="number"
+        formControlName="minimumStockLevel"
+        placeholder="Enter minimum stock level" />
+    </div>
+
+    <div class="form-group">
+      <label>Description / Notes</label>
+      <textarea
+        formControlName="description"
+        placeholder="Optional notes about this raw material">
+      </textarea>
+    </div>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        (click)="cancel()">
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-save"
+        [disabled]="isSubmitting">
+        Save
+      </button>
+    </div>
+
+    <div class="note">
+      ✔ Used for low-stock alerts & manufacturing checks
+    </div>
+
+  </form>
+</div>
