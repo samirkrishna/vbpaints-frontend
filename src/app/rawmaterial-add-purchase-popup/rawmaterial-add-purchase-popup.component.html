@@ -1,0 +1,50 @@
+<div class="modal-overlay">
+<div class="container">
+  <h2>Add Raw Material Purchase</h2>
+
+  <form [formGroup]="purchaseForm" (change)="calculateTotal()">
+
+    <div class="form-group">
+      <label>Raw Material Name</label>
+      <select formControlName="materialName">
+        <option value="">Select Material</option>
+        <option *ngFor="let mat of rawMaterials" [value]="mat">{{ mat }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Date of Purchase</label>
+      <input type="datetime-local" formControlName="dateOfPurchase">
+    </div>
+
+
+    <div class="form-group">
+      <label>Supplier Name</label>
+      <input type="text" formControlName="supplierName" placeholder="Enter supplier name">
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Quantity Purchased</label>
+        <input type="number" formControlName="quantityPurchased">
+      </div>
+
+      <div class="form-group">
+        <label>Unit Price</label>
+        <input type="number" formControlName="unitPrice">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Total Amount</label>
+      <input type="number" [value]="totalAmount" readonly>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
+      <button type="submit" class="btn btn-save" (click)="savePurchase()">Save</button>
+    </div>
+
+  </form>
+</div>
+</div>

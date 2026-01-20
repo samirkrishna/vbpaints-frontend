@@ -1,0 +1,34 @@
+<div class="container">
+
+  <h2>Paint Formulas</h2>
+
+  <table *ngIf="formulas.length">
+    <thead>
+    <tr>
+      <th>Paint Name</th>
+      <th>Batch Size</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let formula of formulas">
+      <td>{{ formula.paintName }}</td>
+      <td>{{ formula.batchSize }} {{ formula.batchUnit }}</td>
+      <td>
+        <label class="switch">
+          <input type="checkbox"
+                 [(ngModel)]="formula.active"
+                 (change)="onStatusToggle(formula)">
+          <span class="slider"></span>
+        </label>
+        <span class="status-text"
+              [class.active]="formula.active">
+            {{ formula.active ? 'Active' : 'Inactive' }}
+          </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
