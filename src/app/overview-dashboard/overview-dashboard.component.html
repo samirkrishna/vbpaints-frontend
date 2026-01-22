@@ -5,22 +5,22 @@
   <div class="kpi-grid">
     <div class="kpi-card">
       <span>Total Raw Materials in Stock</span>
-      <h3>{{ kpis.totalRawMaterials }}</h3>
+      <h3>{{ kpis?.totalRawMaterials }}</h3>
     </div>
 
     <div class="kpi-card">
       <span>Low Stock Alerts</span>
-      <h3 class="low-stock">{{ kpis.lowStockAlerts }}</h3>
+      <h3 class="low-stock">{{ kpis?.lowStockAlerts }}</h3>
     </div>
 
     <div class="kpi-card">
       <span>Paint Batches Manufactured (This Month)</span>
-      <h3>{{ kpis.batchesThisMonth }}</h3>
+      <h3>{{ kpis?.batchesThisMonth }}</h3>
     </div>
 
     <div class="kpi-card">
       <span>Recent Purchases</span>
-      <h3>{{ kpis.recentPurchasesCount }}</h3>
+      <h3>{{ kpis?.recentPurchasesCount }}</h3>
     </div>
   </div>
 
@@ -64,17 +64,15 @@
         </tr>
         </thead>
         <tbody>
-<!--        <tr *ngFor="let m of manufacturingActivities">-->
-<!--          <td>{{ m.date | date:'dd/MM/yyyy' }}</td>-->
-<!--          <td>{{ m.paint }}</td>-->
-<!--          <td>{{ m.batchNo }}</td>-->
-<!--          <td>{{ m.quantity }}</td>-->
-<!--        </tr>-->
+        <tr *ngFor="let m of manufacturedBatches">
+          <td>{{ m.manufacturingDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ m.paintName }}</td>
+          <td>{{ m.batchNumber }}</td>
+          <td>{{ m.batchSize }}</td>
+        </tr>
         </tbody>
       </table>
-      <button class="btn-link">
-        View Manufacturing History
-      </button>
+      <button class="btn-link" (click)="viewAllManufacturedBatches()">View Manufacturing History</button>
     </div>
 
   </div>

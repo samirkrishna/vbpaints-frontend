@@ -9,7 +9,6 @@
       <th>Paint Name</th>
       <th>Quantity</th>
       <th>Supervisor</th>
-      <th>Action</th>
     </tr>
     </thead>
 
@@ -20,19 +19,8 @@
       <td>{{ batch.paintName }}</td>
       <td>{{ batch.batchSize }} {{ batch.batchUnit }}</td>
       <td>{{ batch.supervisorName }}</td>
-      <td>
-        <button class="btn-view" (click)="openDetails(batch.id)">
-          View Details
-        </button>
-      </td>
     </tr>
     </tbody>
   </table>
 </div>
 
-<!-- Batch Details Modal -->
-<app-batch-details-modal
-  *ngIf="showModal"
-  [batch]="selectedBatch"
-  (close)="closeModal()">
-</app-batch-details-modal>

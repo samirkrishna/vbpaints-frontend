@@ -46,7 +46,7 @@ export class RawMaterialInventoryService {
   }
 
   getKpis(): Observable<DashboardKpi> {
-    return this.http.get<DashboardKpi>(`${this.BASE_URL}/kpis`);
+    return this.http.get<DashboardKpi>(`http://localhost:8080/api/v1/dashboard/kpis`);
   }
 
 }
