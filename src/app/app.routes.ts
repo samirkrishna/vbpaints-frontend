@@ -6,6 +6,7 @@ import {RawMaterialInventoryComponent} from "./raw-material-inventory/raw-materi
 import {RawmaterialTableComponent} from "./rawmaterial-table/rawmaterial-table.component";
 import {PaintFormulaComponent} from "./paint-formula/paint-formula.component";
 import {OverviewDashboardComponent} from "./overview-dashboard/overview-dashboard.component";
+import {PaintBatchManufacturedComponent} from "./paint-batch-manufactured/paint-batch-manufactured.component";
 
 export const routes: Routes = [{
   path: 'view-purchase/:materialName',
@@ -26,4 +27,8 @@ export const routes: Routes = [{
   {
     path:'dashboardview',
     component: OverviewDashboardComponent
+  },
+  {
+    path:'paintmanufactured',
+    component: PaintBatchManufacturedComponent
   }];

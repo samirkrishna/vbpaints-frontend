@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RawMaterialInventoryService} from "../rawmaterial-inventory-service.service";
 import {DashboardKpi} from "../model/dashboard-kpi.model";
 import {RawMaterialPurchaseResponse} from "../model/raw-material-purchase.model";
@@ -14,7 +14,7 @@ import {CommonModule, DatePipe} from "@angular/common";
   templateUrl: './overview-dashboard.component.html',
   styleUrl: './overview-dashboard.component.css'
 })
-export class OverviewDashboardComponent {
+export class OverviewDashboardComponent implements OnInit{
   kpis!: DashboardKpi;
   recentPurchases: RawMaterialPurchaseResponse[] = [];
 

@@ -29,7 +29,7 @@ export class RawMaterialInventoryService {
   }
 
   getAllPurchaseHistory(): Observable<RawMaterialPurchaseResponse[]> {
-    return this.http.get<RawMaterialPurchaseResponse[]>(`${this.BASE_URL}/view-purchase`);
+    return this.http.get<RawMaterialPurchaseResponse[]>(`${this.BASE_URL}/view-all`);
   }
 
   updatePurchase(id: number, payload: any): Observable<any> {
