@@ -1,0 +1,85 @@
+<div class="header">
+  <h2>Raw Material Purchase History – {{ materialName }}</h2>
+</div>
+
+<div class="container">
+
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+
+  <table *ngIf="!loading && historyList.length">
+    <thead>
+    <tr>
+      <th>Purchase Date</th>
+      <th>Supplier</th>
+      <th>Quantity</th>
+      <th>Amount</th>
+      <th>Entered On</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let row of historyList">
+      <td>
+        <input *ngIf="row.isEdit"
+               type="datetime-local"
+               [(ngModel)]="row.dateOfPurchase">
+        <span *ngIf="!row.isEdit">
+          {{ row.dateOfPurchase | date:'dd/MM/yyyy' }}
+        </span>
+      </td>
+
+      <td>
+        <input *ngIf="row.isEdit"
+               type="text"
+               [(ngModel)]="row.supplierName">
+        <span *ngIf="!row.isEdit">
+          {{ row.supplierName }}
+        </span>
+      </td>
+
+      <td>
+        <input *ngIf="row.isEdit"
+               type="number"
+               [(ngModel)]="row.quantityPurchased">
+        <span *ngIf="!row.isEdit">
+          {{ row.quantityPurchased }}
+        </span>
+      </td>
+
+      <td class="amount">
+        ₹{{ row.quantityPurchased * row.unitPrice }}
+      </td>
+
+      <td>
+        {{ row.createdAt | date:'dd/MM/yyyy HH:mm' }}
+      </td>
+
+      <td class="actions">
+        <button *ngIf="!row.isEdit"
+                class="btn btn-edit"
+                (click)="enableEdit(row)">
+          ✏ Edit
+        </button>
+
+        <button *ngIf="row.isEdit"
+                class="btn btn-save"
+                (click)="updatePurchase(row)">
+          💾 Save
+        </button>
+
+        <button class="btn btn-delete"
+                (click)="deletePurchase(row.id)">
+          🗑 Delete
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !historyList.length">
+    No purchase history found
+  </div>
+
+</div>

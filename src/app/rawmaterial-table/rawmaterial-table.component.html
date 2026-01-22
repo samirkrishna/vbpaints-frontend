@@ -1,0 +1,74 @@
+<div class="container">
+
+  <h2>Raw Materials</h2>
+
+  <table *ngIf="rawMaterials.length">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Unit</th>
+      <th>Min Stock</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let mat of rawMaterials">
+
+      <td>
+        <input *ngIf="mat.isEdit" [(ngModel)]="mat.name">
+        <span *ngIf="!mat.isEdit">{{ mat.name }}</span>
+      </td>
+
+      <td>
+        <input *ngIf="mat.isEdit" [(ngModel)]="mat.category">
+        <span *ngIf="!mat.isEdit">{{ mat.category }}</span>
+      </td>
+
+      <td>
+        <input *ngIf="mat.isEdit" [(ngModel)]="mat.unitOfMeasure">
+        <span *ngIf="!mat.isEdit">{{ mat.unitOfMeasure }}</span>
+      </td>
+
+      <td>
+        <input *ngIf="mat.isEdit"
+               type="number"
+               [(ngModel)]="mat.minimumStockLevel">
+        <span *ngIf="!mat.isEdit">{{ mat.minimumStockLevel }}</span>
+      </td>
+
+      <td>
+        <input *ngIf="mat.isEdit" [(ngModel)]="mat.description">
+        <span *ngIf="!mat.isEdit">{{ mat.description || '-' }}</span>
+      </td>
+
+      <td class="actions">
+        <button *ngIf="!mat.isEdit"
+                class="btn btn-edit"
+                (click)="enableEdit(mat)">
+          ✏ Edit
+        </button>
+
+        <button *ngIf="mat.isEdit"
+                class="btn btn-save"
+                (click)="updateMaterial(mat)">
+          💾 Save
+        </button>
+
+        <button class="btn btn-delete"
+                (click)="deleteMaterial(mat.id)">
+          🗑 Delete
+        </button>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!rawMaterials.length">
+    No raw materials found
+  </div>
+
+</div>
