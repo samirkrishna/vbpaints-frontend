@@ -1,0 +1,105 @@
+<div class="container">
+  <h2>Manufacture Paint (Batch Creation)</h2>
+
+  <form [formGroup]="form">
+
+    <!-- Batch Details -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Paint Name</label>
+        <select
+        formControlName="paintFormulaId"
+        [disabled]="paintFormulas.length === 0"
+        (change)="onPaintChange()">
+        <option value="">Select Paint</option>
+
+        <option
+            *ngFor="let p of paintFormulas"
+            [value]="p.id">
+            {{ p.paintName }}
+        </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Batch Number</label>
+        <input type="text" formControlName="batchNumber" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>Batch Size</label>
+        <input type="number" formControlName="batchSize" (change)="validate()">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Manufacturing Date</label>
+        <input type="date" formControlName="manufacturingDate">
+      </div>
+
+      <div class="form-group">
+        <label>Supervisor Name</label>
+        <input type="text" formControlName="supervisorName">
+      </div>
+    </div>
+
+    <!-- Formula Breakdown -->
+    <table *ngIf="materialStatus.length > 0">
+      <thead>
+        <tr>
+          <th>Raw Material</th>
+          <th>Required Qty</th>
+          <th>Available Qty</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let m of materialStatus">
+          <td>{{ m.rawMaterialName }}</td>
+          <td>{{ m.requiredQty }}</td>
+          <td>{{ m.availableQty }}</td>
+          <td [class.status-ok]="m.sufficient"
+              [class.status-low]="!m.sufficient">
+            {{ m.sufficient ? '✅ OK' : '❌ Low' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!canManufacture && materialStatus.length > 0"
+         class="warning">
+      ⚠ Insufficient raw materials to manufacture this batch
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        (click)="cancel()">
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="canManufacture"
+        [class.btn-disabled]="!canManufacture"
+        [disabled]="!canManufacture"
+        (click)="openConfirmation()">
+        Manufacture Batch
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<app-batch-confirmation
+  *ngIf="showConfirmation"
+  [batchInfo]="batchInfo"
+  [materials]="materialStatus"
+  (cancel)="showConfirmation = false"
+  (confirm)="confirmBatch()">
+</app-batch-confirmation>

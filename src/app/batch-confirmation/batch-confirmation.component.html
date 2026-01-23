@@ -1,0 +1,45 @@
+<div class="overlay">
+  <div class="modal">
+
+    <h2>Batch Confirmation & Inventory Adjustment</h2>
+
+    <div class="summary">
+      <p><b>Paint Name:</b> {{ batchInfo.paintName }}</p>
+      <p><b>Batch Number:</b> {{ batchInfo.batchNumber }}</p>
+      <p><b>Quantity Produced:</b> {{ batchInfo.quantityProduced }}</p>
+    </div>
+
+    <h3>Raw Materials Used</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Material Name</th>
+          <th>Quantity Deducted</th>
+          <th>Remaining Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of materials">
+          <td>{{ m.rawMaterialName }}</td>
+          <td>{{ m.requiredQty }} {{ m.unit }}</td>
+          <td>{{ m.availableQty - m.requiredQty }} {{ m.unit }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul class="notes">
+      <li>✔ Raw material quantities will be deducted automatically</li>
+      <li>✔ Paint inventory will be increased</li>
+      <li>✔ Batch record will be saved for audit</li>
+    </ul>
+
+    <div class="actions">
+      <button class="btn cancel" (click)="cancel.emit()">Cancel</button>
+      <button class="btn confirm" (click)="confirm.emit()">
+        Confirm & Adjust Inventory
+      </button>
+    </div>
+
+  </div>
+</div>
