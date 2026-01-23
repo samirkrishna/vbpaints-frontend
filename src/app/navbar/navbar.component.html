@@ -1,0 +1,23 @@
+<header class="navbar">
+  <div class="brand">VB Paints</div>
+
+  <button class="hamburger" (click)="toggle()">☰</button>
+
+  <nav [class.open]="mobileOpen">
+    <a routerLink="/dashboardview" routerLinkActive="active" (click)="close()">Dashboard</a>
+
+    <a routerLink="/inventory" routerLinkActive="active" (click)="close()">Inventory</a>
+
+    <a routerLink="/rawmaterial" routerLinkActive="active" (click)="close()">Raw Materials</a>
+
+    <a routerLink="/addrawmaterial" routerLinkActive="active" (click)="close()">Add Raw Material</a>
+
+    <a routerLink="/paintformula" routerLinkActive="active" (click)="close()">Paint Formula</a>
+
+    <a routerLink="/paintformulamamanagement" routerLinkActive="active" (click)="close()">Formula Management</a>
+
+    <a routerLink="/manufacturebatch" routerLinkActive="active" (click)="close()">Manufacturing</a>
+
+    <a routerLink="/paintmanufactured" routerLinkActive="active" (click)="close()">Manufactured Batches</a>
+  </nav>
+</header>

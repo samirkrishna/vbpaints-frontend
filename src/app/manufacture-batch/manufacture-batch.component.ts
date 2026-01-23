@@ -52,7 +52,8 @@ export class ManufactureBatchComponent implements OnInit {
     this.service.getPaintFormulas().subscribe({
       next: (res) => {
         const payload = res as any;
-        this.paintFormulas = Array.isArray(payload) ? payload : (payload.items ?? []);
+        const formulas:any[] =  Array.isArray(payload) ? payload : (payload.items ?? []);
+        this.paintFormulas = formulas.filter(f => f.active);
         this.materialStatus = [];
       },
       error: () => alert('Failed to load paint formulas')
