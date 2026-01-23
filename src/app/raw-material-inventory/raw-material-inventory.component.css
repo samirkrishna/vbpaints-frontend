@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f6f8;
+}
+
+/* Top Navigation */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #1f2937;
+  color: #fff;
+}
+
+.navbar .logo {
+  font-weight: bold;
+  margin-right: 40px;
+}
+
+.navbar a {
+  color: #d1d5db;
+  margin-right: 20px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.navbar a.active {
+  color: #fff;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 4px;
+}
+
+/* Page Container */
+.container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+.status-in {
+  color: green;
+  font-weight: bold;
+}
+
+.status-low {
+  color: orange;
+  font-weight: bold;
+}
+
+.action-btn {
+  cursor: pointer;
+  color: #3b82f6;
+  font-size: 16px;
+}
+
+/* Legend */
+.legend {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.legend span {
+  margin-right: 20px;
+}

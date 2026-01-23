@@ -15,4 +15,16 @@ export class RawMaterialService {
   createRawMaterial(data: RawMaterial): Observable<any> {
     return this.http.post(this.API_URL, data);
   }
+
+  getRawMaterialNames(): Observable<RawMaterial[]> {
+    return this.http.get<RawMaterial[]>(`${this.API_URL}`);
+  }
+
+  update(id: number, payload: any): Observable<any> {
+    return this.http.patch(`${this.API_URL}/${id}`, payload);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/${id}`);
+  }
 }

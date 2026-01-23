@@ -1,176 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Raw Material Inventory</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #f4f6f8;
-        }
+<div class="container">
 
-        /* Top Navigation */
-        .navbar {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            background-color: #1f2937;
-            color: #fff;
-        }
+  <div class="header">
+    <h2>Raw Material Inventory</h2>
+    <button class="btn" (click)="addPurchase()">+ Add Purchase</button>
+  </div>
 
-        .navbar .logo {
-            font-weight: bold;
-            margin-right: 40px;
-        }
+  <div *ngIf="loading">Loading inventory...</div>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
 
-        .navbar a {
-            color: #d1d5db;
-            margin-right: 20px;
-            text-decoration: none;
-            font-size: 14px;
-        }
+  <table *ngIf="!loading && rawMaterials.length">
+    <thead>
+    <tr>
+      <th>Material</th>
+      <th>Category</th>
+      <th>Available Qty</th>
+      <th>Unit</th>
+      <th>Status</th>
+      <th>⚙</th>
+    </tr>
+    </thead>
 
-        .navbar a.active {
-            color: #fff;
-            border-bottom: 2px solid #3b82f6;
-            padding-bottom: 4px;
-        }
+    <tbody>
+    <tr *ngFor="let material of rawMaterials">
+      <td>{{ material.materialName }}</td>
+      <td>{{ material.category }}</td>
+      <td>{{ material.availableQty }}</td>
+      <td>{{ material.unit }}</td>
 
-        /* Page Container */
-        .container {
-            padding: 20px;
-        }
+      <td
+        [ngClass]="{
+            'status-in': getStatus(material) === 'IN',
+            'status-low': getStatus(material) === 'LOW'
+          }"
+      >
+        {{ getStatus(material) === 'IN' ? '● In' : '⚠ Low' }}
+      </td>
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
+      <td class="action-btn" (click)="viewDetails(material)">👁</td>
+    </tr>
+    </tbody>
+  </table>
 
-        .header h2 {
-            margin: 0;
-        }
-
-        .btn {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 14px;
-        }
-
-        th {
-            background-color: #f9fafb;
-            font-weight: 600;
-        }
-
-        .status-in {
-            color: green;
-            font-weight: bold;
-        }
-
-        .status-low {
-            color: orange;
-            font-weight: bold;
-        }
-
-        .action-btn {
-            cursor: pointer;
-            color: #3b82f6;
-            font-size: 16px;
-        }
-
-        /* Legend */
-        .legend {
-            margin-top: 12px;
-            font-size: 13px;
-        }
-
-        .legend span {
-            margin-right: 20px;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <div class="logo">PaintFactory</div>
-        <a href="#">Dashboard</a>
-        <a href="#" class="active">Raw Materials</a>
-        <a href="#">Manufacturing</a>
-        <a href="#">User</a>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <div class="header">
-            <h2>Raw Material Inventory</h2>
-            <button class="btn">+ Add Purchase</button>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Material</th>
-                    <th>Category</th>
-                    <th>Available Qty</th>
-                    <th>Unit</th>
-                    <th>Status</th>
-                    <th>⚙</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Pigment A</td>
-                    <td>Pigment</td>
-                    <td>120</td>
-                    <td>kg</td>
-                    <td class="status-in">● In</td>
-                    <td class="action-btn">👁</td>
-                </tr>
-                <tr>
-                    <td>Solvent B</td>
-                    <td>Solvent</td>
-                    <td>40</td>
-                    <td>L</td>
-                    <td class="status-low">⚠ Low</td>
-                    <td class="action-btn">👁</td>
-                </tr>
-                <tr>
-                    <td>Resin C</td>
-                    <td>Resin</td>
-                    <td>300</td>
-                    <td>kg</td>
-                    <td class="status-in">● In</td>
-                    <td class="action-btn">👁</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="legend">
-            <span>● In Stock</span>
-            <span>⚠ Low Stock</span>
-        </div>
-    </div>
-
-</body>
-</html>
+  <div class="legend">
+    <span>● In Stock</span>
+    <span>⚠ Low Stock</span>
+  </div>
+</div>

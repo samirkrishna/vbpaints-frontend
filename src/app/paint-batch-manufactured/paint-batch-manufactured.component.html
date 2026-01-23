@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Manufactured Paint Batches</h2>
+
+  <table *ngIf="batches.length">
+    <thead>
+    <tr>
+      <th>Date</th>
+      <th>Batch No</th>
+      <th>Paint Name</th>
+      <th>Quantity</th>
+      <th>Supervisor</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let batch of batches">
+      <td>{{ batch.manufacturingDate | date:'dd/MM/yyyy' }}</td>
+      <td>{{ batch.batchNumber }}</td>
+      <td>{{ batch.paintName }}</td>
+      <td>{{ batch.batchSize }} {{ batch.batchUnit }}</td>
+      <td>{{ batch.supervisorName }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
