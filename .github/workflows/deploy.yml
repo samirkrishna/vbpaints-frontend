@@ -1,0 +1,32 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Inject API URL
+        run: |
+          sed -i "s|__API_URL__|${{ vars.API_URL }}|g" src/environments/environment.prod.ts
+
+      - name: Build Angular
+        run: npm run build:gh
+
+      - name: Deploy to GitHub Pages
+        run: npx angular-cli-ghpages --dir=dist/vbpaints-frontend

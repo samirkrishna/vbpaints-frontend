@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment.prod';
 
 @Injectable({ providedIn: 'root' })
 export class ManufactureBatchService {
 
-  private batchUrl = 'http://localhost:8080/api/v1/paint-batches';
-  private formulaUrl = 'http://localhost:8080/api/v1/paint-formula';
+  private baseUrl = environment.apiUrl;
+
+  private batchUrl = `${this.baseUrl}/api/v1/paint-batches`;
+  private formulaUrl = `${this.baseUrl}/api/v1/paint-formula`;
   
 
   constructor(private http: HttpClient) {}

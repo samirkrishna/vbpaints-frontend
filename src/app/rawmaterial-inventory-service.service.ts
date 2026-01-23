@@ -5,13 +5,17 @@ import {RawMaterialStockViewModel} from "./model/raw-material-stock-view.model";
 import {RawMaterialPurchaseResponse} from "./model/raw-material-purchase.model";
 import {RawMaterialPurchaseRequest} from "./model/rawmaterial-add-purchase.model";
 import {DashboardKpi} from "./model/dashboard-kpi.model";
+import { environment } from '../environments/environment.prod';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class RawMaterialInventoryService {
 
-  private readonly BASE_URL = 'http://localhost:8080/api/v1/raw-material-inventory';
+  private baseUrl = environment.apiUrl;
+
+  private readonly BASE_URL = `${this.baseUrl}/api/v1/raw-material-inventory`;
 
   constructor(private http: HttpClient) {}
 
@@ -46,7 +50,8 @@ export class RawMaterialInventoryService {
   }
 
   getKpis(): Observable<DashboardKpi> {
-    return this.http.get<DashboardKpi>(`http://localhost:8080/api/v1/dashboard/kpis`);
+    console.log('Fetching KPIs from', `${this.baseUrl}/api/v1/dashboard/kpis`);
+    return this.http.get<DashboardKpi>(`${this.baseUrl}/api/v1/dashboard/kpis`);
   }
 
 }

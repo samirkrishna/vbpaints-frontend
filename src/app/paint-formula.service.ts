@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {PaintFormula} from "./model/paint-formula.model";
 import {PaintBatch} from "./model/paint-batch.model";
+import { environment } from '../environments/environment.prod';
+
 
 @Injectable({ providedIn: 'root' })
 export class PaintFormulaService {
-
-  private baseUrl = 'http://localhost:8080/api/v1/paint-formula';
+  private apiUrl = environment.apiUrl;
+  
+  private baseUrl = `${this.apiUrl}/api/v1/paint-formula`;
 
   constructor(private http: HttpClient) {}
 
@@ -24,11 +27,11 @@ export class PaintFormulaService {
   }
 
   getManufacturedBatches(): Observable<PaintBatch[]> {
-    return this.http.get<any>(`http://localhost:8080/api/v1/paint-batches/all-manufacture-details`);
+    return this.http.get<any>(`${this.apiUrl}/api/v1/paint-batches/all-manufacture-details`);
   }
 
   getBatchDetails(id: number) {
-    return this.http.get<any>(`http://localhost:8080/api/v1/paint-batches/batchDetails/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/api/v1/paint-batches/batchDetails/${id}`);
   }
 
 

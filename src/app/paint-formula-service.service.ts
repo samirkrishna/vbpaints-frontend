@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PaintFormula } from './model/paint-formula.model';
+import { environment } from '../environments/environment.prod';
 
 @Injectable({ providedIn: 'root' })
 export class PaintFormulaService {
+  private baseUrl = environment.apiUrl;
 
-  private readonly API_URL = 'http://localhost:8080/api/v1/paint-formula';
+  private readonly API_URL = `${this.baseUrl}/api/v1/paint-formula`;
 
   constructor(private http: HttpClient) {}
 
