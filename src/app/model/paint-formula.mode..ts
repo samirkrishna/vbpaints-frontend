@@ -3,7 +3,7 @@ export interface PaintFormulaItem {
   rawMaterialName: string;
   quantity: number;
   unit: string;
-  notes?: string;
+  notes: string;
 }
 
 export interface PaintFormula {
@@ -12,6 +12,4 @@ export interface PaintFormula {
   batchSize: number;
   batchUnit: string;
   items: PaintFormulaItem[];
-  active: boolean;
-  isEdit?: boolean;
 }
