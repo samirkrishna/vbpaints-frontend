@@ -38,7 +38,7 @@ export class PaintFormulaManagementComponent {
       batchUnit: ['LITERS', Validators.required],
       items: this.fb.array([])
     });
-
+    this.loadRawMaterials()
     this.addItem(); // start with one row
   }
 
@@ -84,7 +84,7 @@ export class PaintFormulaManagementComponent {
     });
   }
 
-    loadRawMaterials(): void {
+  loadRawMaterials(): void {
     this.rawMaterialService.getRawMaterialNames().subscribe({
       next: (data) => {
         this.rawMaterials = data;
