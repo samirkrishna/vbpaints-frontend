@@ -8,6 +8,8 @@ import {
   Validators
 } from '@angular/forms';
 import { PaintFormulaService } from '../paint-formula-service.service';
+import { RawMaterial } from '../model/raw-material.model';
+import { RawMaterialService } from '../rawmaterial-service.service';
 
 @Component({
   selector: 'app-paint-formula',
@@ -20,18 +22,15 @@ export class PaintFormulaManagementComponent {
 
   formulaForm: FormGroup;
 
-  // These will later come from backend
-  rawMaterials = [
-    { id: 4, name: 'Pigment A' },
-    { id: 5, name: 'Solvent B' },
-    { id: 6, name: 'Resin C' }
-  ];
+  /** ✅ Loaded dynamically */
+  rawMaterials: RawMaterial[] = [];
 
   units = ['KG', 'LITERS', 'GRAMS'];
 
   constructor(
     private fb: FormBuilder,
-    private service: PaintFormulaService
+    private service: PaintFormulaService,
+    private rawMaterialService: RawMaterialService
   ) {
     this.formulaForm = this.fb.group({
       paintName: ['', Validators.required],
@@ -81,6 +80,17 @@ export class PaintFormulaManagementComponent {
       },
       error: (err) => {
         alert(err?.error?.message || 'Failed to save formula');
+      }
+    });
+  }
+
+    loadRawMaterials(): void {
+    this.rawMaterialService.getRawMaterialNames().subscribe({
+      next: (data) => {
+        this.rawMaterials = data;
+      },
+      error: () => {
+        alert("Failed to load raw materials");
       }
     });
   }
