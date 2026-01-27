@@ -11,12 +11,37 @@
   <table *ngIf="!loading && rawMaterials.length">
     <thead>
     <tr>
-      <th>Material</th>
-      <th>Category</th>
-      <th>Available Qty</th>
-      <th>Unit</th>
+      <th (click)="sort('materialName')">
+        Material
+        <span *ngIf="sortColumn === 'materialName'">
+    {{ sortDirection === 'asc' ? '▲' : '▼' }}
+  </span>
+      </th>
+
+      <th (click)="sort('category')">
+        Category
+        <span *ngIf="sortColumn === 'category'">
+    {{ sortDirection === 'asc' ? '▲' : '▼' }}
+  </span>
+      </th>
+
+      <th (click)="sort('availableQty')">
+        Available Qty
+        <span *ngIf="sortColumn === 'availableQty'">
+    {{ sortDirection === 'asc' ? '▲' : '▼' }}
+  </span>
+      </th>
+
+      <th (click)="sort('unit')">
+        Unit
+        <span *ngIf="sortColumn === 'unit'">
+    {{ sortDirection === 'asc' ? '▲' : '▼' }}
+  </span>
+      </th>
+
       <th>Status</th>
       <th>⚙</th>
+
     </tr>
     </thead>
 

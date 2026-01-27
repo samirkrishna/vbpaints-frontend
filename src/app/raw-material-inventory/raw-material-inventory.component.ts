@@ -59,10 +59,6 @@ export class RawMaterialInventoryComponent {
     return 'IN';
   }
 
-  // addPurchase(): void {
-  //   console.log('Add Purchase clicked');
-  // }
-
   addPurchase(materialName?: string) {
     const dialogRef = this.dialog.open(RawmaterialAddPurchasePopupComponent, {
       width: '700px',
@@ -82,4 +78,36 @@ export class RawMaterialInventoryComponent {
       material.materialName
     ]);
   }
+
+  sortColumn: string | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  sort(column: string): void {
+    if (this.sortColumn === column) {
+      // toggle direction
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+
+    this.rawMaterials.sort((a: any, b: any) => {
+      const valueA = a[column];
+      const valueB = b[column];
+
+      if (valueA == null) return 1;
+      if (valueB == null) return -1;
+
+      if (typeof valueA === 'number') {
+        return this.sortDirection === 'asc'
+          ? valueA - valueB
+          : valueB - valueA;
+      }
+
+      return this.sortDirection === 'asc'
+        ? valueA.toString().localeCompare(valueB.toString())
+        : valueB.toString().localeCompare(valueA.toString());
+    });
+  }
+
 }

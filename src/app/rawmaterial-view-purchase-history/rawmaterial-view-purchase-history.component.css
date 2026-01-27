@@ -1,99 +1,95 @@
-/* raw-material-purchase-history.component.css */
-
+/* ===============================
+   Base
+================================ */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f8;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background-color: #f3f4f6;
   margin: 0;
+  color: #111827;
 }
 
+/* ===============================
+   Header
+================================ */
 .header {
-  background-color: #1f2937;
+  background: linear-gradient(135deg, #1f2937, #111827);
   color: white;
-  padding: 14px 20px;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
+/* ===============================
+   Container
+================================ */
 .container {
-  padding: 20px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.filters {
+/* ===============================
+   Filters / Toolbar
+================================ */
+.filter-bar {
   background-color: white;
-  padding: 16px;
-  border-radius: 6px;
+  padding: 16px 18px;
+  border-radius: 8px;
   display: flex;
-  gap: 14px;
+  flex-wrap: wrap;
+  gap: 18px;
   align-items: flex-end;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.filter-group {
+.filter-bar label {
   display: flex;
   flex-direction: column;
-}
-
-label {
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 4px;
+  color: #374151;
 }
 
-input, select {
-  padding: 7px 10px;
-  border-radius: 4px;
+.filter-bar input {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 6px;
   border: 1px solid #d1d5db;
   font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.filter-bar input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* ===============================
+   Buttons
+================================ */
 .btn {
   padding: 8px 14px;
   font-size: 14px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #2563eb;
-  color: white;
-}
-
-table {
-  width: 100%;
-  background-color: white;
-  border-collapse: collapse;
   border-radius: 6px;
-  overflow: hidden;
-}
-
-th, td {
-  padding: 12px;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 14px;
-}
-
-th {
-  background-color: #f9fafb;
-}
-
-tr:hover {
-  background-color: #f3f4f6;
-}
-
-.amount {
-  font-weight: 600;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.btn {
-  padding: 6px 10px;
-  border-radius: 4px;
   border: none;
   cursor: pointer;
-  font-size: 13px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-clear {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.btn-clear:hover {
+  background-color: #d1d5db;
 }
 
 .btn-edit {
@@ -110,8 +106,102 @@ tr:hover {
   color: white;
 }
 
-input {
+.btn-delete:hover {
+  background-color: #dc2626;
+}
+
+/* ===============================
+   Table
+================================ */
+table {
   width: 100%;
-  padding: 6px;
+  background-color: white;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+th {
+  background-color: #f9fafb;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+td {
+  padding: 14px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* ===============================
+   Amount & Actions
+================================ */
+.amount {
+  font-weight: 600;
+  color: #111827;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ===============================
+   Inputs inside table
+================================ */
+td input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+}
+
+/* ===============================
+   States
+================================ */
+.error {
+  color: #dc2626;
+  background-color: #fee2e2;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.loading {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ===============================
+   Responsive
+================================ */
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  th, td {
+    font-size: 13px;
+    padding: 10px;
+  }
 }
 

@@ -101,3 +101,15 @@ th {
 .legend span {
   margin-right: 20px;
 }
+
+th {
+  cursor: pointer;
+  user-select: none;
+}
+
+th span {
+  margin-left: 6px;
+  font-size: 11px;
+  color: #6b7280;
+}
+

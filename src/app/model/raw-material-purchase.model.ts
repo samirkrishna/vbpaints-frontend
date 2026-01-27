@@ -4,7 +4,7 @@ export interface RawMaterialPurchaseResponse {
   quantityPurchased: number;
   unitPrice: number;
   supplierName?: string;
-  dateOfPurchase?: string;
+  dateOfPurchase: string;
   createdAt?: string;
   totalPrice: number;
   isEdit?: boolean;
