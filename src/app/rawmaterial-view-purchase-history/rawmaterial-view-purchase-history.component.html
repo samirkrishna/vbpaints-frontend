@@ -2,6 +2,23 @@
   <h2>Raw Material Purchase History – {{ materialName }}</h2>
 </div>
 
+<div class="filter-bar">
+  <label>
+    From:
+    <input type="date" [(ngModel)]="fromDate" (change)="applyDateFilter()">
+  </label>
+
+  <label>
+    To:
+    <input type="date" [(ngModel)]="toDate" (change)="applyDateFilter()">
+  </label>
+
+  <button class="btn btn-clear" (click)="clearDateFilter()">
+    Clear
+  </button>
+</div>
+
+
 <div class="container">
 
   <div *ngIf="loading">Loading...</div>
