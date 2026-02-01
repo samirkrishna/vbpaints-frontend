@@ -10,6 +10,7 @@ import {PaintBatchManufacturedComponent} from "./paint-batch-manufactured/paint-
 import { RawMaterialComponent } from './raw-material/raw-material.component';
 import { PaintFormulaManagementComponent } from './paint-formula-management/paint-formula-management.component';
 import { ManufactureBatchComponent } from './manufacture-batch/manufacture-batch.component';
+import {VendorComponent} from "./vendor/vendor.component";
 
 export const routes: Routes = [
   {
@@ -52,4 +53,8 @@ export const routes: Routes = [
   {
     path:'manufacturebatch',
     component: ManufactureBatchComponent
+  },
+  {
+    path:'vendor',
+    component: VendorComponent
   }];
