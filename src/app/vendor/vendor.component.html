@@ -1,0 +1,65 @@
+<div class="container">
+
+  <h2>Vendors</h2>
+
+  <!-- Add Vendor -->
+  <div class="card">
+    <h3>Add Vendor</h3>
+    <div class="form-row">
+      <input placeholder="Vendor Name" [(ngModel)]="newVendor.name">
+      <input placeholder="Contact Number" [(ngModel)]="newVendor.contactNo">
+      <input placeholder="Address" [(ngModel)]="newVendor.address">
+      <button class="btn-primary" (click)="addVendor()">Add</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading">Loading vendors...</div>
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+
+  <!-- Vendor Table -->
+  <table *ngIf="!loading && vendors.length">
+    <thead>
+    <tr>
+      <th (click)="sortBy('name')">
+        Name <span class="sort-icon">{{ getSortIcon('name') }}</span>
+      </th>
+
+      <th (click)="sortBy('contactNo')">
+        Contact No <span class="sort-icon">{{ getSortIcon('contactNo') }}</span>
+      </th>
+
+      <th (click)="sortBy('address')">
+        Address <span class="sort-icon">{{ getSortIcon('address') }}</span>
+      </th>
+
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let v of vendors">
+      <td>
+        <input *ngIf="v.isEdit" [(ngModel)]="v.name">
+        <span *ngIf="!v.isEdit">{{ v.name }}</span>
+      </td>
+
+      <td>
+        <input *ngIf="v.isEdit" [(ngModel)]="v.contactNo">
+        <span *ngIf="!v.isEdit">{{ v.contactNo }}</span>
+      </td>
+
+      <td>
+        <input *ngIf="v.isEdit" [(ngModel)]="v.address">
+        <span *ngIf="!v.isEdit">{{ v.address }}</span>
+      </td>
+
+      <td class="actions">
+        <button *ngIf="!v.isEdit" class="btn-edit" (click)="enableEdit(v)">✏ Edit</button>
+        <button *ngIf="v.isEdit" class="btn-save" (click)="saveVendor(v)">💾 Save</button>
+        <button class="btn-delete" (click)="deleteVendor(v.id!)">🗑 Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
