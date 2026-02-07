@@ -17,6 +17,11 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
   historyList: RawMaterialPurchaseResponse[] = [];
   loading = false;
   errorMsg = '';
+  fromDate: string | null = null;
+  toDate: string | null = null;
+
+  originalHistoryList: RawMaterialPurchaseResponse[] = [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +41,7 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
       .subscribe({
         next: data => {
           this.historyList = data;
+          this.originalHistoryList = [...data]; // 👈 keep backup
           this.loading = false;
         },
         error: err => {
@@ -45,6 +51,38 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
         }
       });
   }
+
+  applyDateFilter(): void {
+    if (!this.fromDate && !this.toDate) {
+      this.historyList = [...this.originalHistoryList];
+      return;
+    }
+
+    const from = this.fromDate
+      ? new Date(this.fromDate).setHours(0, 0, 0, 0)
+      : null;
+
+    const to = this.toDate
+      ? new Date(this.toDate).setHours(23, 59, 59, 999)
+      : null;
+
+    this.historyList = this.originalHistoryList.filter(row => {
+      const purchaseTime = new Date(row.dateOfPurchase).getTime();
+
+      if (from && purchaseTime < from) return false;
+      return !(to && purchaseTime > to);
+
+
+    });
+  }
+
+  clearDateFilter(): void {
+    this.fromDate = null;
+    this.toDate = null;
+    this.historyList = [...this.originalHistoryList];
+  }
+
+
 
   deletePurchase(id: number) {
     if (!confirm('Are you sure you want to delete this record?')) {
