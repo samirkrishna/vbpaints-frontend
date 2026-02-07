@@ -11,6 +11,7 @@ import { RawMaterialComponent } from './raw-material/raw-material.component';
 import { PaintFormulaManagementComponent } from './paint-formula-management/paint-formula-management.component';
 import { ManufactureBatchComponent } from './manufacture-batch/manufacture-batch.component';
 import {VendorComponent} from "./vendor/vendor.component";
+import {SupplierTransactionComponent} from "./supplier-transaction/supplier-transaction.component";
 
 export const routes: Routes = [
   {
@@ -57,4 +58,10 @@ export const routes: Routes = [
   {
     path:'vendor',
     component: VendorComponent
-  }];
+  },
+  {
+    path:'supplierTransaction',
+    component: SupplierTransactionComponent
+  },
+
+];
