@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Vendor} from "./model/vendor.model";
+import {SupplierTransactionRequest} from "./model/supplier-transacation-request.model";
 
 @Injectable({ providedIn: 'root' })
 export class VendorService {
@@ -24,5 +25,9 @@ export class VendorService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.BASE_URL}/${id}`);
+  }
+
+  createSupplier(payload: SupplierTransactionRequest ): Observable<SupplierTransactionRequest>{
+    return this.http.post<SupplierTransactionRequest>('http://localhost:8080/api/v1/supplier-transactions',payload)
   }
 }
