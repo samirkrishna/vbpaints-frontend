@@ -73,6 +73,79 @@
       ⚠ Insufficient raw materials to manufacture this batch
     </div>
 
+    <!-- PACKING SECTION -->
+    <div class="packing-section" *ngIf="canManufacture">
+
+      <h3>Packing Variants</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Can Size (Liters)</th>
+            <th>Quantity</th>
+            <th>Total Liters</th>
+            <th>❌</th>
+          </tr>
+        </thead>
+
+        <tbody formArrayName="packs">
+          <tr *ngFor="let pack of packs.controls; let i = index"
+              [formGroupName]="i">
+
+            <td>
+              <select formControlName="size">
+                <option value="">Select Size</option>
+                <option [value]="1">1 L</option>
+                <option [value]="5">5 L</option>
+                <option [value]="10">10 L</option>
+              </select>
+            </td>
+
+            <td>
+              <input type="number" formControlName="count">
+            </td>
+
+            <td>
+              {{
+                (pack.get('size')?.value || 0) *
+                (pack.get('count')?.value || 0)
+              }}
+            </td>
+
+            <td>
+             <button
+                type="button"
+                class="btn btn-danger"
+                (click)="removePack(i)"
+                [disabled]="packs.length === 1">
+                ✖
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="add-row">
+        <button type="button"
+                class="btn btn-secondary"
+                (click)="addPack()">
+          + Add Pack Variant
+        </button>
+      </div>
+
+      <div class="pack-summary">
+        <p><b>Total Packed:</b> {{ totalPackedLiters }} L</p>
+        <p><b>Remaining:</b> {{ remainingLiters }} L</p>
+
+        <p class="warning"
+          *ngIf="!isPackingValid()">
+          ❌ Packed liters exceed batch size!
+        </p>
+      </div>
+
+    </div>
+
     <!-- Actions -->
     <div class="actions">
       <button
@@ -82,17 +155,20 @@
         Cancel
       </button>
 
-      <button
-        type="button"
-        class="btn"
-        [class.btn-primary]="canManufacture"
-        [class.btn-disabled]="!canManufacture"
-        [disabled]="!canManufacture"
-        (click)="openConfirmation()">
-        Manufacture Batch
-      </button>
+     <button
+      type="button"
+      class="btn"
+      [class.btn-primary]="!isManufactureDisabled"
+      [class.btn-disabled]="isManufactureDisabled"
+      [disabled]="isManufactureDisabled"
+      (click)="manufacture()">
+      Manufacture Batch
+    </button>
+    <!-- <div *ngIf="getTotalPacked() !== form.get('batchSize')?.value"
+     class="warning">
+      ⚠ Total packed liters must exactly match batch size
+    </div> -->
     </div>
-
   </form>
 </div>
 

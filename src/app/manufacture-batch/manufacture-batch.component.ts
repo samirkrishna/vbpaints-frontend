@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { ManufactureBatchService } from '../manufatcure-batch.service';
 import { BatchConfirmationComponent } from '../batch-confirmation/batch-confirmation.component';
+import { FormArray } from '@angular/forms';
+
 
 @Component({
   selector: 'app-manufacture-batch',
@@ -42,8 +44,12 @@ export class ManufactureBatchComponent implements OnInit {
       batchSize: [null, Validators.required],
       batchUnit: ['', Validators.required],
       manufacturingDate: [null, Validators.required],
-      supervisorName: ['', Validators.required]
+      supervisorName: ['', Validators.required],
+
+      packs: this.fb.array([]) 
     });
+    this.addPack();   // 👈 THIS is what you're missing
+
     this.loadPaintFormulas();
   }
 
@@ -113,9 +119,20 @@ export class ManufactureBatchComponent implements OnInit {
     this.service.manufacture(payload).subscribe({
       next: () => {
         alert('Batch manufactured successfully');
+        
+        // 1️⃣ Reset entire form
         this.form.reset();
+
+        // 2️⃣ Clear material status
         this.materialStatus = [];
         this.canManufacture = false;
+
+        // 3️⃣ CLEAR packs properly
+        this.packs.clear();
+
+        // 4️⃣ Add ONE fresh empty row
+        this.addPack();
+
         this.loadPaintFormulas();
       },
       error: err => {
@@ -153,5 +170,65 @@ confirmBatch(): void {
     this.canManufacture = false;
   });
 }
+
+get packs(): FormArray {
+  return this.form.get('packs') as FormArray;
+}
+
+addPack(): void {
+  this.packs.push(
+    this.fb.group({
+      size: [1, Validators.required],
+      count: [1, [Validators.required, Validators.min(1)]]
+    })
+  );
+}
+
+removePack(index: number): void {
+  if (this.packs.length > 1) {
+    this.packs.removeAt(index);
+  }
+}
+
+get totalPackedLiters(): number {
+  return this.packs.controls.reduce((total, group) => {
+    const size = group.get('size')?.value || 0;
+    const count = group.get('count')?.value || 0;
+    return total + (size * count);
+  }, 0);
+}
+
+get remainingLiters(): number {
+  return (this.form.get('batchSize')?.value || 0) - this.totalPackedLiters;
+}
+
+isPackingValid(): boolean {
+  return this.totalPackedLiters <= (this.form.get('batchSize')?.value || 0);
+}
+
+get isManufactureDisabled(): boolean {
+
+  if (this.form.invalid) return true;
+
+  if (!this.canManufacture) return true; // raw material validation
+
+  if (this.packs.length === 0) return true;
+
+  const batchSize = this.form.get('batchSize')?.value || 0;
+
+  if (this.getTotalPacked() !== batchSize) return true;
+
+  return false;
+}
+
+getTotalPacked(): number {
+  return this.packs.controls.reduce((total, group) => {
+    const size = group.get('size')?.value || 0;
+    const count = group.get('count')?.value || 0;
+    return total + (size * count);
+  }, 0);
+}
+
+
 
 }

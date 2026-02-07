@@ -180,3 +180,81 @@ tbody td {
     padding: 8px 0;
   }
 }
+
+
+/* PACK SECTION */
+.packing-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.packing-section h3 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Row Layout */
+.pack-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.pack-row select,
+.pack-row input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+.pack-row input {
+  width: 100px;
+}
+
+.liters {
+  min-width: 80px;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+/* Buttons */
+.btn-secondary {
+  margin-top: 10px;
+  background-color: #e5e7eb;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Summary */
+.pack-summary {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.pack-summary p {
+  margin: 4px 0;
+}
+
+.error-text {
+  color: #dc2626;
+  font-weight: 600;
+}
