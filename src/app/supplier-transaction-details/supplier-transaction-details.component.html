@@ -1,0 +1,50 @@
+<div class="container">
+
+  <h2>Supplier Transactions</h2>
+
+  <!-- Filters -->
+  <div class="filters">
+    <select [(ngModel)]="filters.vendorId">
+      <option value="">All Vendors</option>
+      <option *ngFor="let v of vendors" [value]="v.id">
+        {{ v.name }}
+      </option>
+    </select>
+
+    <input type="date" [(ngModel)]="filters.fromDate">
+    <input type="date" [(ngModel)]="filters.toDate">
+
+    <input type="text"
+           placeholder="Paint Name"
+           [(ngModel)]="filters.paintName">
+
+    <button class="btn" (click)="load()">Apply</button>
+    <button class="btn clear" (click)="clear()">Clear</button>
+  </div>
+
+  <!-- Table -->
+  <table>
+    <thead>
+    <tr>
+      <th>Date</th>
+      <th>Vendor</th>
+      <th>Vehicle</th>
+      <th>Total Amount</th>
+      <th>View</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let t of transactions">
+      <td>{{ t.transactionDate | date:'dd/MM/yyyy' }}</td>
+      <td>{{ t.vendorName }}</td>
+      <td>{{ t.vehicleType }} - {{ t.vehicleNumber }}</td>
+      <td>₹ {{ t.totalAmount }}</td>
+      <td>
+        <button (click)="view(t.transactionId)">👁</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

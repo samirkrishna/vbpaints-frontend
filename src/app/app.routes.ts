@@ -12,6 +12,9 @@ import { PaintFormulaManagementComponent } from './paint-formula-management/pain
 import { ManufactureBatchComponent } from './manufacture-batch/manufacture-batch.component';
 import {VendorComponent} from "./vendor/vendor.component";
 import {SupplierTransactionComponent} from "./supplier-transaction/supplier-transaction.component";
+import {
+  SupplierTransactionDetailsComponent
+} from "./supplier-transaction-details/supplier-transaction-details.component";
 
 export const routes: Routes = [
   {
@@ -63,5 +66,9 @@ export const routes: Routes = [
     path:'supplierTransaction',
     component: SupplierTransactionComponent
   },
+  {
+  path:'supplierTransactionDetails',
+  component: SupplierTransactionDetailsComponent
+},
 
 ];
