@@ -52,10 +52,15 @@
         <tbody>
         <tr *ngFor="let item of items; let i = index">
           <td>
-            <select [(ngModel)]="item.paintName" class="form-control">
-              <option value="0">Select Paint</option>
-              <option *ngFor="let paint of paints" [value]="paint.name">
-                {{ paint.name }}
+            <select
+              [(ngModel)]="item.paintId"
+              (ngModelChange)="onPaintChange(item)"
+              name="paint{{i}}"
+              class="form-control">
+              <option [ngValue]="0">Select Paint</option>
+              <option *ngFor="let paint of paints"
+                      [ngValue]="paint.id">
+                {{ paint.paintName }}
               </option>
             </select>
           </td>

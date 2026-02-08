@@ -22,7 +22,7 @@ export class SupplierTransactionComponent implements OnInit {
   paints: any[] = []
 
   items: SupplierTransactionItem[] = [
-    { paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }
+    {paintId:0, paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }
   ];
 
   constructor(
@@ -68,6 +68,7 @@ export class SupplierTransactionComponent implements OnInit {
 
   addRow() {
     this.items.push({
+      paintId: 0,
       paintName: '',
       containerSize: 5,
       quantity: 1,
@@ -93,9 +94,7 @@ export class SupplierTransactionComponent implements OnInit {
     return !!(this.vendorId > 0 &&
       this.vehicleType &&
       this.vehicleNumber &&
-      this.items.some(item => item.paintName && item.quantity > 0 && item.pricePerUnit > 0));
-
-
+      this.items.some(item => item.paintId && item.quantity > 0 && item.pricePerUnit > 0));
   }
 
   submit() {
@@ -108,7 +107,7 @@ export class SupplierTransactionComponent implements OnInit {
       vendorId: this.vendorId,
       vehicleType: this.vehicleType,
       vehicleNumber: this.vehicleNumber,
-      items: this.items.filter(item => item.paintName && item.quantity > 0)
+      items: this.items.filter(item => item.paintId && item.quantity > 0)
     };
 
     this.service.createSupplier(payload)
@@ -128,5 +127,12 @@ export class SupplierTransactionComponent implements OnInit {
     this.items = [{ paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }];
     this.vehicleType = '';
     this.vehicleNumber = '';
+  }
+  onPaintChange(item: SupplierTransactionItem) {
+    console.log('Paint changed:', item.paintId);
+    const selected = this.paints.find(p => p.id === item.paintId);
+    if (selected) {
+      item.paintName = selected.paintName;
+    }
   }
 }

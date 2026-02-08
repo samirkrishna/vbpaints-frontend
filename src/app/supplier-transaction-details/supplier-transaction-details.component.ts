@@ -3,12 +3,13 @@ import {SupplierTransactionRequest} from "../model/supplier-transacation-request
 import {VendorService} from "../vendor.service";
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
-import {DatePipe} from "@angular/common";
+import {CommonModule, DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-supplier-transaction-details',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     DatePipe
   ],
@@ -46,7 +47,7 @@ export class SupplierTransactionDetailsComponent implements OnInit{
     this.load();
   }
 
-  view(id: number) {
+  view(id: number|undefined) {
     this.router.navigate(['/supplier-transactions', id]);
   }
 
