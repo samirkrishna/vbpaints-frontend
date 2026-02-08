@@ -1,0 +1,171 @@
+/* ===============================
+   Page Layout
+   =============================== */
+
+.container {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 20px;
+  background-color: #f4f6f8;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+h2 {
+  margin-bottom: 16px;
+  color: #1f2937;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* ===============================
+   Filters Section
+   =============================== */
+
+.filters {
+  background-color: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: flex-end;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.filters select,
+.filters input {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  min-width: 160px;
+  background-color: #fff;
+}
+
+.filters input::placeholder {
+  color: #9ca3af;
+}
+
+.filters .btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filters .btn {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.filters .btn:hover {
+  background-color: #1d4ed8;
+}
+
+.filters .btn.clear {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.filters .btn.clear:hover {
+  background-color: #d1d5db;
+}
+
+/* ===============================
+   Table
+   =============================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+thead {
+  background-color: #f3f4f6;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+td {
+  padding: 12px;
+  font-size: 14px;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* ===============================
+   Amount Highlight
+   =============================== */
+
+td:nth-child(4) {
+  font-weight: 600;
+  color: #16a34a;
+}
+
+/* ===============================
+   Action Button
+   =============================== */
+
+td button {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s ease;
+}
+
+td button:hover {
+  background-color: #1d4ed8;
+}
+
+/* ===============================
+   Empty / No Data State
+   =============================== */
+
+.empty {
+  text-align: center;
+  padding: 24px;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* ===============================
+   Responsive
+   =============================== */
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters select,
+  .filters input,
+  .filters .btn {
+    width: 100%;
+  }
+
+  table {
+    font-size: 13px;
+  }
+}

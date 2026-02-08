@@ -30,4 +30,12 @@ export class VendorService {
   createSupplier(payload: SupplierTransactionRequest ): Observable<SupplierTransactionRequest>{
     return this.http.post<SupplierTransactionRequest>('http://localhost:8080/api/v1/supplier-transactions',payload)
   }
+
+  getTransactions(filters: any) {
+    return this.http.get<SupplierTransactionRequest[]>(
+      `http://localhost:8080/api/v1/supplier-transactions/search`,
+      { params: filters }
+    );
+  }
+
 }
