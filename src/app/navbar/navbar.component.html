@@ -4,25 +4,51 @@
   <button class="hamburger" (click)="toggle()">☰</button>
 
   <nav [class.open]="mobileOpen">
-    <a routerLink="/dashboardview" routerLinkActive="active" (click)="close()">Dashboard</a>
 
-    <a routerLink="/inventory" routerLinkActive="active" (click)="close()">Inventory</a>
+    <!-- Normal Links -->
+    <a class="nav-link" routerLink="/dashboardview" routerLinkActive="active">
+      Dashboard
+    </a>
 
-    <a routerLink="/rawmaterial" routerLinkActive="active" (click)="close()">Raw Materials</a>
+    <a class="nav-link" routerLink="/inventory" routerLinkActive="active">
+      Inventory
+    </a>
 
-    <a routerLink="/addrawmaterial" routerLinkActive="active" (click)="close()">Add Raw Material</a>
+    <!-- Raw Materials -->
+    <div class="nav-item">
+      <span>Raw Materials ▾</span>
+      <div class="dropdown">
+        <a routerLink="/rawmaterial">Raw Materials</a>
+        <a routerLink="/addrawmaterial">Add Raw Material</a>
+      </div>
+    </div>
 
-    <a routerLink="/paintformula" routerLinkActive="active" (click)="close()">Paint Formula</a>
+    <!-- Paint -->
+    <div class="nav-item">
+      <span>Paint ▾</span>
+      <div class="dropdown">
+        <a routerLink="/paintformula">Paint Formula</a>
+        <a routerLink="/paintformulamamanagement">Formula Management</a>
+      </div>
+    </div>
 
-    <a routerLink="/paintformulamamanagement" routerLinkActive="active" (click)="close()">Formula Management</a>
+    <!-- Manufacturing -->
+    <div class="nav-item">
+      <span>Manufacturing ▾</span>
+      <div class="dropdown">
+        <a routerLink="/manufacturebatch">Manufacturing</a>
+        <a routerLink="/paintmanufactured">Manufactured Batches</a>
+      </div>
+    </div>
 
-    <a routerLink="/manufacturebatch" routerLinkActive="active" (click)="close()">Manufacturing</a>
-
-    <a routerLink="/paintmanufactured" routerLinkActive="active" (click)="close()">Manufactured Batches</a>
-
-    <a routerLink="/vendor" routerLinkActive="active" (click)="close()">Add Vendor</a>
-
-    <a routerLink="/supplierTransaction" routerLinkActive="active" (click)="close()">Supplier Sales</a>
+    <!-- Vendor -->
+    <div class="nav-item">
+      <span>Vendor ▾</span>
+      <div class="dropdown">
+        <a routerLink="/vendor">Add Vendor</a>
+        <a routerLink="/supplierTransaction">Supplier Sales</a>
+      </div>
+    </div>
 
   </nav>
 </header>

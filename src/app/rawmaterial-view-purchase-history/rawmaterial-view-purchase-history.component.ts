@@ -4,6 +4,7 @@ import {RawMaterialPurchaseResponse} from "../model/raw-material-purchase.model"
 import {ActivatedRoute} from "@angular/router";
 import {RawMaterialInventoryService} from "../rawmaterial-inventory-service.service";
 import {FormsModule} from "@angular/forms";
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-rawmaterial-view-purchase-history',
@@ -25,7 +26,8 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
 
   constructor(
     private route: ActivatedRoute,
-    private inventoryService: RawMaterialInventoryService
+    private inventoryService: RawMaterialInventoryService,
+    private toast: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +96,7 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
         this.historyList = this.historyList.filter(h => h.id !== id);
       },
       error: () => {
-        alert('Failed to delete purchase');
+        this.toast.error('Failed to delete purchase');
       }
     });
   }
@@ -117,7 +119,7 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
         this.loadPurchaseHistory(); // reload list
       },
       error: () => {
-        alert('Failed to update purchase');
+        this.toast.error('Failed to update purchase');
       }
     });
   }

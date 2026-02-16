@@ -9,6 +9,7 @@ import {
 import { ManufactureBatchService } from '../manufatcure-batch.service';
 import { BatchConfirmationComponent } from '../batch-confirmation/batch-confirmation.component';
 import { FormArray } from '@angular/forms';
+import { ToastService } from '../toast.service';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class ManufactureBatchComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private service: ManufactureBatchService
+    private service: ManufactureBatchService,
+    private toast: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class ManufactureBatchComponent implements OnInit {
         this.paintFormulas = formulas.filter(f => f.active);
         this.materialStatus = [];
       },
-      error: () => alert('Failed to load paint formulas')
+      error: () => this.toast.error('Failed to load paint formulas')
     });
   }
 
@@ -118,7 +120,7 @@ export class ManufactureBatchComponent implements OnInit {
 
     this.service.manufacture(payload).subscribe({
       next: () => {
-        alert('Batch manufactured successfully');
+        this.toast.success('Batch manufactured successfully');
         
         // 1️⃣ Reset entire form
         this.form.reset();
@@ -136,7 +138,7 @@ export class ManufactureBatchComponent implements OnInit {
         this.loadPaintFormulas();
       },
       error: err => {
-        alert(err?.error?.message || 'Manufacturing failed');
+        this.toast.error(err?.error?.message || 'Manufacturing failed');
       }
     });
   }
@@ -163,7 +165,7 @@ confirmBatch(): void {
   const payload = this.form.getRawValue();
 
   this.service.manufacture(payload).subscribe(() => {
-    alert('Batch manufactured successfully');
+    this.toast.success('Batch manufactured successfully');
     this.showConfirmation = false;
     this.form.reset();
     this.materialStatus = [];

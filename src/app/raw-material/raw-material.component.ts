@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RawMaterialService } from '../rawmaterial-service.service';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-raw-material',
@@ -20,7 +21,8 @@ rawMaterialForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private rawMaterialService: RawMaterialService
+    private rawMaterialService: RawMaterialService,
+    private toast: ToastService
   ) {
     this.rawMaterialForm = this.fb.group({
       name: ['', Validators.required],
@@ -42,12 +44,12 @@ rawMaterialForm: FormGroup;
     this.rawMaterialService.createRawMaterial(this.rawMaterialForm.value)
       .subscribe({
         next: () => {
-          alert('Raw material created successfully');
+          this.toast.success('Raw material created successfully');
           this.rawMaterialForm.reset();
           this.isSubmitting = false;
         },
         error: (err:any) => {
-          alert(err?.error?.message || 'Failed to save raw material');
+          this.toast.error(err?.error?.message || 'Failed to save raw material');
           this.isSubmitting = false;
         }
       });

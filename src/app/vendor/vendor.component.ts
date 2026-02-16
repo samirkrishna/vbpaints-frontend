@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {VendorService} from "../vendor.service";
 import {Vendor} from "../model/vendor.model";
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-vendors',
@@ -23,7 +24,7 @@ export class VendorComponent implements OnInit {
     address: ''
   };
 
-  constructor(private vendorService: VendorService) {}
+  constructor(private vendorService: VendorService, private toast: ToastService) {}
 
   ngOnInit(): void {
     this.loadVendors();
@@ -45,7 +46,7 @@ export class VendorComponent implements OnInit {
 
   addVendor(): void {
     if (!this.newVendor.name || !this.newVendor.contactNo || !this.newVendor.address) {
-      alert('All fields are required');
+      this.toast.error('All fields are required');
       return;
     }
 
@@ -54,7 +55,7 @@ export class VendorComponent implements OnInit {
         this.vendors.push(vendor);
         this.newVendor = { name: '', contactNo: '', address: '' };
       },
-      error: () => alert('Failed to add vendor')
+      error: () => this.toast.error('Failed to add vendor')
     });
   }
 
@@ -67,7 +68,7 @@ export class VendorComponent implements OnInit {
       next: () => {
         vendor.isEdit = false;
       },
-      error: () => alert('Failed to update vendor')
+      error: () => this.toast.error('Failed to update vendor')
     });
   }
 
@@ -78,7 +79,7 @@ export class VendorComponent implements OnInit {
       next: () => {
         this.vendors = this.vendors.filter(v => v.id !== id);
       },
-      error: () => alert('Failed to delete vendor')
+      error: () => this.toast.error('Failed to delete vendor')
     });
   }
 

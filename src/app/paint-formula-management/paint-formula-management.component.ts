@@ -10,6 +10,7 @@ import {
 import { PaintFormulaService } from '../paint-formula-service.service';
 import { RawMaterial } from '../model/raw-material.model';
 import { RawMaterialService } from '../rawmaterial-service.service';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-paint-formula',
@@ -30,7 +31,8 @@ export class PaintFormulaManagementComponent {
   constructor(
     private fb: FormBuilder,
     private service: PaintFormulaService,
-    private rawMaterialService: RawMaterialService
+    private rawMaterialService: RawMaterialService,
+    private toast: ToastService
   ) {
     this.formulaForm = this.fb.group({
       paintName: ['', Validators.required],
@@ -73,13 +75,13 @@ export class PaintFormulaManagementComponent {
 
     this.service.create(this.formulaForm.value).subscribe({
       next: () => {
-        alert('Paint formula saved successfully');
+        this.toast.success('Paint formula saved successfully');
         this.formulaForm.reset();
         this.items.clear();
         this.addItem();
       },
       error: (err) => {
-        alert(err?.error?.message || 'Failed to save formula');
+        this.toast.error(err?.error?.message || 'Failed to save formula');
       }
     });
   }
@@ -90,7 +92,7 @@ export class PaintFormulaManagementComponent {
         this.rawMaterials = data;
       },
       error: () => {
-        alert("Failed to load raw materials");
+        this.toast.error("Failed to load raw materials");
       }
     });
   }

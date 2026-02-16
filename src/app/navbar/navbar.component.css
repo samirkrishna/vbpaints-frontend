@@ -7,7 +7,7 @@
   padding: 14px 24px;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .brand {
@@ -15,23 +15,96 @@
   font-weight: 600;
 }
 
+/* ---------- NAV WRAPPER ---------- */
 nav {
   display: flex;
-  gap: 20px;
+  gap: 24px;
+  align-items: center;
+  height: 40px;
 }
 
-nav a {
+/* ---------- NORMAL LINKS ---------- */
+.nav-link {
   color: #e5e7eb;
   text-decoration: none;
   font-size: 14px;
-  padding-bottom: 4px;
+  padding: 8px 4px;
+  transition: 0.2s;
 }
 
-nav a.active {
+.nav-link:hover {
+  color: white;
+}
+
+.nav-link.active {
   border-bottom: 2px solid #3b82f6;
   color: white;
 }
 
+/* ---------- GROUP DROPDOWN ---------- */
+.nav-item {
+  position: relative;
+  cursor: pointer;
+}
+
+.nav-item > span {
+  color: #e5e7eb;
+  font-size: 14px;
+  padding: 8px 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.2s;
+}
+
+.nav-item:hover > span {
+  color: white;
+}
+
+/* ---------- DROPDOWN MENU ---------- */
+.dropdown {
+  position: absolute;
+  top: 100%;              /* FIXED gap issue */
+  left: 0;
+  background: #111827;
+  min-width: 200px;
+  border-radius: 8px;
+  padding: 8px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  z-index: 999;
+}
+
+.dropdown a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #e5e7eb;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.dropdown a:hover {
+  background: #374151;
+  color: white;
+}
+
+.nav-item:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Align last dropdown to right */
+.nav-item:last-child .dropdown {
+  right: 0;
+  left: auto;
+}
+
+/* ---------- HAMBURGER ---------- */
 .hamburger {
   display: none;
   background: none;
@@ -43,6 +116,7 @@ nav a.active {
 
 /* ---------- Mobile ---------- */
 @media (max-width: 900px) {
+
   .hamburger {
     display: block;
   }
@@ -62,7 +136,26 @@ nav a.active {
     display: flex;
   }
 
-  nav a {
+  .nav-link,
+  .nav-item > span {
     padding: 10px 24px;
+  }
+
+  .dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    display: none;
+    box-shadow: none;
+  }
+
+  .nav-item:hover .dropdown {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdown a {
+    padding-left: 40px;
   }
 }

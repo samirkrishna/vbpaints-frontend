@@ -6,6 +6,7 @@ import { DecimalPipe } from "@angular/common";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {PaintFormulaService} from "../paint-formula.service";
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-supplier-transaction',
@@ -28,7 +29,8 @@ export class SupplierTransactionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: VendorService,
-    private paintService: PaintFormulaService
+    private paintService: PaintFormulaService,
+    private toast: ToastService
 
   ) {}
 
@@ -99,7 +101,7 @@ export class SupplierTransactionComponent implements OnInit {
 
   submit() {
     if (!this.canSubmit()) {
-      alert('Please fill all required fields and add at least one valid item.');
+      this.toast.error('Please fill all required fields and add at least one valid item.');
       return;
     }
 
@@ -113,12 +115,12 @@ export class SupplierTransactionComponent implements OnInit {
     this.service.createSupplier(payload)
       .subscribe({
         next: () => {
-          alert('Transaction saved successfully!');
+          this.toast.success('Transaction saved successfully!');
           this.resetForm();
         },
         error: (error) => {
           console.error('Error saving transaction:', error);
-          alert('Error saving transaction. Please try again.');
+          this.toast.error('Error saving transaction. Please try again.');
         }
       });
   }

@@ -2,3 +2,30 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* ===== TOAST STYLES ===== */
+
+.toast-success {
+  background: #16a34a !important;
+  color: #ffffff !important;
+}
+
+.toast-error {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+.toast-warning {
+  background: #f59e0b !important;
+  color: #ffffff !important;
+}
+
+.toast-info {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+/* Rounded */
+.mat-mdc-snack-bar-container {
+  border-radius: 8px !important;
+  font-weight: 500;
+}
