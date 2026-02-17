@@ -54,29 +54,25 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
       });
   }
 
-  applyDateFilter(): void {
-    if (!this.fromDate && !this.toDate) {
-      this.historyList = [...this.originalHistoryList];
-      return;
-    }
+ applyDateFilter(): void {
 
-    const from = this.fromDate
-      ? new Date(this.fromDate).setHours(0, 0, 0, 0)
-      : null;
+   if (!this.fromDate && !this.toDate) {
+     this.historyList = [...this.originalHistoryList];
+     return;
+   }
 
-    const to = this.toDate
-      ? new Date(this.toDate).setHours(23, 59, 59, 999)
-      : null;
+   this.historyList = this.originalHistoryList.filter(row => {
 
-    this.historyList = this.originalHistoryList.filter(row => {
-      const purchaseTime = new Date(row.dateOfPurchase).getTime();
+     const purchaseDate = row.dateOfPurchase.split('T')[0];
 
-      if (from && purchaseTime < from) return false;
-      return !(to && purchaseTime > to);
+     if (this.fromDate && purchaseDate < this.fromDate) return false;
 
+     if (this.toDate && purchaseDate > this.toDate) return false;
 
-    });
-  }
+     return true;
+   });
+
+ }
 
   clearDateFilter(): void {
     this.fromDate = null;
@@ -106,22 +102,30 @@ export class RawmaterialViewPurchaseHistoryComponent implements OnInit{
   }
 
   updatePurchase(row: any) {
+
     const payload = {
       supplierName: row.supplierName,
-      quantityPurchased: row.quantityPurchased,
-      unitPrice: row.unitPrice,
-      dateOfPurchase: row.dateOfPurchase
+      dateOfPurchase: row.dateOfPurchase,
+
+      purchaseLevels: row.purchaseLevels.map((level: any) => ({
+        packSize: level.packSize,
+        unit: level.unit,
+        itemCount: level.itemCount,
+        unitPrice: level.unitPrice
+      }))
     };
 
     this.inventoryService.updatePurchase(row.id, payload).subscribe({
       next: () => {
         row.isEdit = false;
-        this.loadPurchaseHistory(); // reload list
+        this.toast.success('Purchase updated successfully');
+        this.loadPurchaseHistory();
       },
       error: () => {
         this.toast.error('Failed to update purchase');
       }
     });
+
   }
 
 }

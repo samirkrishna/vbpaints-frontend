@@ -37,62 +37,157 @@
     </thead>
 
     <tbody>
-    <tr *ngFor="let row of historyList">
-      <td>
-        <input *ngIf="row.isEdit"
-               type="datetime-local"
-               [(ngModel)]="row.dateOfPurchase">
-        <span *ngIf="!row.isEdit">
-          {{ row.dateOfPurchase | date:'dd/MM/yyyy' }}
-        </span>
-      </td>
 
-      <td>
-        <input *ngIf="row.isEdit"
-               type="text"
-               [(ngModel)]="row.supplierName">
-        <span *ngIf="!row.isEdit">
-          {{ row.supplierName }}
-        </span>
-      </td>
+    <ng-container *ngFor="let row of historyList">
 
-      <td>
-        <input *ngIf="row.isEdit"
-               type="number"
-               [(ngModel)]="row.quantityPurchased">
-        <span *ngIf="!row.isEdit">
+      <!-- Main Row -->
+      <tr>
+        <td>
+          <button class="expand-btn"
+                  (click)="row.isExpanded = !row.isExpanded">
+            {{ row.isExpanded ? '▼' : '▶' }}
+          </button>
+
+          <input *ngIf="row.isEdit"
+                 type="datetime-local"
+                 [(ngModel)]="row.dateOfPurchase">
+
+          <span *ngIf="!row.isEdit">
+        {{ row.dateOfPurchase | date:'dd/MM/yyyy' }}
+      </span>
+        </td>
+
+        <td>
+          <input *ngIf="row.isEdit"
+                 type="text"
+                 [(ngModel)]="row.supplierName">
+
+          <span *ngIf="!row.isEdit">
+        {{ row.supplierName }}
+      </span>
+        </td>
+
+        <td>
           {{ row.quantityPurchased }}
-        </span>
-      </td>
+        </td>
 
-      <td class="amount">
-        ₹{{ row.quantityPurchased * row.unitPrice }}
-      </td>
+        <td class="amount">
+          ₹{{ row.totalPrice }}
+        </td>
 
-      <td>
-        {{ row.createdAt | date:'dd/MM/yyyy HH:mm' }}
-      </td>
+        <td>
+          {{ row.createdAt | date:'dd/MM/yyyy HH:mm' }}
+        </td>
 
-      <td class="actions">
-        <button *ngIf="!row.isEdit"
-                class="btn btn-edit"
-                (click)="enableEdit(row)">
-          ✏ Edit
-        </button>
+        <td class="actions">
 
-        <button *ngIf="row.isEdit"
-                class="btn btn-save"
-                (click)="updatePurchase(row)">
-          💾 Save
-        </button>
+          <button *ngIf="!row.isEdit"
+                  class="btn btn-edit"
+                  (click)="enableEdit(row)">
+            ✏ Edit
+          </button>
 
-        <button class="btn btn-delete"
-                (click)="deletePurchase(row.id)">
-          🗑 Delete
-        </button>
-      </td>
-    </tr>
+          <button *ngIf="row.isEdit"
+                  class="btn btn-save"
+                  (click)="updatePurchase(row)">
+            💾 Save
+          </button>
+
+          <button class="btn btn-delete"
+                  (click)="deletePurchase(row.id)">
+            🗑 Delete
+          </button>
+
+        </td>
+      </tr>
+
+
+      <!-- Purchase Levels Expanded Row -->
+      <tr *ngIf="row.isExpanded">
+        <td colspan="6">
+
+          <table class="level-table">
+
+            <thead>
+            <tr>
+              <th>Pack Size</th>
+              <th>Unit</th>
+              <th>Item Count</th>
+              <th>Unit Price</th>
+              <th>Total Price</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr *ngFor="let level of row.purchaseLevels; let i = index">
+
+              <!-- Pack Size -->
+              <td>
+                <input *ngIf="row.isEdit"
+                       type="number"
+                       [(ngModel)]="level.packSize"
+                       class="level-input">
+
+                <span *ngIf="!row.isEdit">
+            {{ level.packSize }}
+          </span>
+              </td>
+
+              <!-- Unit -->
+              <td>
+                <input *ngIf="row.isEdit"
+                       type="text"
+                       [(ngModel)]="level.unit"
+                       class="level-input">
+
+                <span *ngIf="!row.isEdit">
+            {{ level.unit }}
+          </span>
+              </td>
+
+              <!-- Item Count -->
+              <td>
+                <input *ngIf="row.isEdit"
+                       type="number"
+                       [(ngModel)]="level.itemCount"
+                       class="level-input">
+
+                <span *ngIf="!row.isEdit">
+            {{ level.itemCount }}
+          </span>
+              </td>
+
+              <!-- Unit Price -->
+              <td>
+                <input *ngIf="row.isEdit"
+                       type="number"
+                       [(ngModel)]="level.unitPrice"
+                       class="level-input">
+
+                <span *ngIf="!row.isEdit">
+            ₹{{ level.unitPrice }}
+          </span>
+              </td>
+
+              <!-- Total Price -->
+              <td>
+                ₹{{ level.itemCount * level.unitPrice }}
+              </td>
+
+            </tr>
+
+            </tbody>
+
+          </table>
+
+        </td>
+      </tr>
+
+    </ng-container>
+
     </tbody>
+
   </table>
 
   <div *ngIf="!loading && !historyList.length">

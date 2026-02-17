@@ -205,3 +205,28 @@ td input {
   }
 }
 
+.expand-btn {
+  margin-right: 6px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.level-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  background-color: #f9fafb;
+}
+
+.level-table th,
+.level-table td {
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.level-table th {
+  background-color: #f3f4f6;
+}
