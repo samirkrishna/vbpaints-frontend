@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { RawMaterial } from '../model/raw-material.model';
 import {RawMaterialService} from "../rawmaterial-service.service";
+import { ToastService } from '../toast.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class RawmaterialTableComponent implements OnInit {
   rawMaterials: RawMaterial[] = [];
   loading = false;
 
-  constructor(private rawMaterialService: RawMaterialService) {}
+  constructor(private rawMaterialService: RawMaterialService,private toast:ToastService) {}
 
   ngOnInit(): void {
     this.loadRawMaterials();
@@ -33,7 +34,7 @@ export class RawmaterialTableComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        alert('Failed to load raw materials');
+        this.toast.error('Failed to load raw materials');
         this.loading = false;
       }
     });
@@ -57,7 +58,7 @@ export class RawmaterialTableComponent implements OnInit {
       next: () => {
         material.isEdit = false;
       },
-      error: () => alert('Update failed')
+      error: () => this.toast.error('Update failed')
     });
   }
 
@@ -71,7 +72,7 @@ export class RawmaterialTableComponent implements OnInit {
         this.rawMaterials =
           this.rawMaterials.filter(m => m.id !== id);
       },
-      error: () => alert('Delete failed')
+      error: () => this.toast.error('Delete failed')
     });
   }
 }

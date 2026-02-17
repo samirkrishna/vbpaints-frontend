@@ -67,8 +67,12 @@ export const routes: Routes = [
     component: SupplierTransactionComponent
   },
   {
-  path:'supplierTransactionDetails',
-  component: SupplierTransactionDetailsComponent
-},
+    path:'supplierTransactionDetails',
+    component: SupplierTransactionDetailsComponent
+  },
+  {
+    path:'supplierTransactionDetails:id',
+    component: SupplierTransactionDetailsComponent
+  },
 
 ];

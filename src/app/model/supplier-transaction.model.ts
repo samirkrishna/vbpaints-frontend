@@ -1,5 +1,5 @@
 export interface SupplierTransactionItem {
-  paintId?: string;    // ✅ NEW - references dropdown paint
+  paintId?: number;    // ✅ NEW - references dropdown paint
   paintName?: string;  // display only
   containerSize: number;
   quantity: number;

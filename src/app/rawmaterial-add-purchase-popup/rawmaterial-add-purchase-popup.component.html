@@ -23,17 +23,29 @@
       <input type="text" formControlName="supplierName" placeholder="Enter supplier name">
     </div>
 
-    <div class="row">
-      <div class="form-group">
-        <label>Quantity Purchased</label>
-        <input type="number" formControlName="quantityPurchased">
-      </div>
+     <div class="form-group">
+    <label>Purchase Levels</label>
 
-      <div class="form-group">
-        <label>Unit Price</label>
-        <input type="number" formControlName="unitPrice">
+    <div formArrayName="purchaseLevels">
+      <div
+        class="level-row"
+        *ngFor="let level of purchaseLevels.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <input type="number" placeholder="Pack Size" formControlName="packSize">
+        <select formControlName="unit">
+          <option value="KG">KG</option>
+          <option value="L">L</option>
+        </select>
+        <input type="number" placeholder="Item Count" formControlName="itemCount">
+        <input type="number" placeholder="Unit Price" formControlName="unitPrice">
+
+        <button type="button" class="remove-btn" (click)="removeLevel(i)">✕</button>
       </div>
     </div>
+
+    <button type="button" class="add-btn" (click)="addLevel()">+ Add Level</button>
+  </div>
 
     <div class="form-group">
       <label>Total Amount</label>

@@ -3,6 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {PaintFormula} from "../model/paint-formula.model";
 import {PaintFormulaService} from "../paint-formula.service";
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-paint-formula',
@@ -15,7 +16,7 @@ export class PaintFormulaComponent implements OnInit{
   formulas: PaintFormula[] = [];
   loading = false;
 
-  constructor(private service: PaintFormulaService) {}
+  constructor(private service: PaintFormulaService, private toast:ToastService) {}
 
   ngOnInit(): void {
     this.loadFormulas();
@@ -29,7 +30,7 @@ export class PaintFormulaComponent implements OnInit{
         this.loading = false;
       },
       error: () => {
-        alert('Failed to load paint formulas');
+        this.toast.error('Failed to load paint formulas');
         this.loading = false;
       }
     });
@@ -41,7 +42,7 @@ export class PaintFormulaComponent implements OnInit{
         this.loadFormulas();
       },
       error: () => {
-        alert('Failed to update status');
+        this.toast.error('Failed to update status');
         formula.active = !formula.active;
       }
     });
