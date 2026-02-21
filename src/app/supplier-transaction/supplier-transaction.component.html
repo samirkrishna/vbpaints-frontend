@@ -1,13 +1,16 @@
 <div class="container">
+
   <h2>Supplier Transaction</h2>
 
-  <!-- Common Fields -->
+  <!-- TRANSACTION DETAILS -->
   <div class="form-section">
     <h3>Transaction Details</h3>
+
     <div class="form-row">
+
       <div class="form-group">
         <label>Vendor *</label>
-        <select [(ngModel)]="vendorId" class="form-control">
+        <select [(ngModel)]="vendorId" (ngModelChange)="resetValidation()">
           <option value="0">Select Vendor</option>
           <option *ngFor="let vendor of vendors" [value]="vendor.id">
             {{ vendor.name }}
@@ -17,101 +20,120 @@
 
       <div class="form-group">
         <label>Vehicle Type *</label>
-        <input
-          [(ngModel)]="vehicleType"
-          placeholder="Enter Vehicle Type"
-          class="form-control"
-          required>
+        <input [(ngModel)]="vehicleType"
+               (ngModelChange)="resetValidation()">
       </div>
 
       <div class="form-group">
         <label>Vehicle Number *</label>
-        <input
-          [(ngModel)]="vehicleNumber"
-          placeholder="Enter Vehicle Number"
-          class="form-control">
+        <input [(ngModel)]="vehicleNumber"
+               (ngModelChange)="resetValidation()">
       </div>
+
     </div>
   </div>
 
-  <!-- Items Table -->
+  <!-- ITEMS TABLE -->
   <div class="form-section">
     <h3>Items</h3>
-    <div class="table-container">
-      <table>
-        <thead>
-        <tr>
-          <th>Paint Name *</th>
-          <th>Container Size (L)</th>
-          <th>Quantity *</th>
-          <th>Price per Unit (₹) *</th>
-          <th>Total (₹)</th>
-          <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of items; let i = index">
-          <td>
-            <select
-              [(ngModel)]="item.paintId"
-              (ngModelChange)="onPaintChange(item)"
-              name="paint{{i}}"
-              class="form-control">
-              <option [ngValue]="0">Select Paint</option>
-              <option *ngFor="let paint of paints"
-                      [ngValue]="paint.id">
-                {{ paint.paintName }}
-              </option>
-            </select>
-          </td>
-          <td>
-            <input
-              type="number"
-              [(ngModel)]="item.containerSize"
-              min="1"
-              class="form-control">
-          </td>
-          <td>
-            <input
-              type="number"
-              [(ngModel)]="item.quantity"
-              min="1"
-              class="form-control">
-          </td>
-          <td>
-            <input
-              type="number"
-              [(ngModel)]="item.pricePerUnit"
-              min="0"
-              step="0.01"
-              class="form-control">
-          </td>
-          <td class="total-col">
-            ₹ {{ rowTotal(item) | number:'1.2-2' }}
-          </td>
-          <td>
-            <button
-              (click)="removeRow(i)"
-              [disabled]="items.length === 1"
-              class="btn-remove"
-              title="Remove Row">
-              ❌
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <button (click)="addRow()" class="btn-add"> Add Paint Item</button>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Paint</th>
+        <th>Container</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let item of items; let i=index">
+
+        <td>
+          <select [(ngModel)]="item.paintId"
+                  (ngModelChange)="onPaintChange(item)">
+            <option [ngValue]="0">Select Paint</option>
+            <option *ngFor="let paint of paints"
+                    [ngValue]="paint.id">
+              {{ paint.paintName }}
+            </option>
+          </select>
+        </td>
+
+        <td>
+          <input type="number"
+                 [(ngModel)]="item.containerSize"
+                 (ngModelChange)="resetValidation()">
+        </td>
+
+        <td>
+          <input type="number"
+                 [(ngModel)]="item.quantity"
+                 (ngModelChange)="resetValidation()">
+        </td>
+
+        <td>
+          <input type="number"
+                 [(ngModel)]="item.pricePerUnit"
+                 (ngModelChange)="resetValidation()">
+        </td>
+
+        <td>
+          ₹ {{ rowTotal(item) | number:'1.2-2' }}
+        </td>
+
+        <td>
+          <span *ngIf="materialStatus[i]?.status === 'OK'" class="status-ok">
+            ✔ Available
+          </span>
+
+          <span *ngIf="materialStatus[i]?.status === 'LOW'" class="status-low">
+            ❌ {{ materialStatus[i]?.message }}
+          </span>
+        </td>
+
+        <td>
+          <button class="btn-remove"
+                  (click)="removeRow(i)"
+                  [disabled]="items.length===1">
+            ❌
+          </button>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- Total and Submit -->
-  <div class="total-section">
-    <h3>Total Amount: ₹ {{ grandTotal() | number:'1.2-2' }}</h3>
-    <div class="button-group">
-      <button (click)="submit()" [disabled]="!canSubmit()" class="btn-submit">
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+
+    <div class="left-actions">
+      <button class="btn btn-secondary" (click)="addRow()">
+        + Add Paint Item
+      </button>
+
+      <button class="btn btn-outline" (click)="validateStock()">
+        Validate Stock
+      </button>
+    </div>
+
+    <div class="right-actions">
+      <div class="total-display">
+        Total: <strong>₹ {{ grandTotal() | number:'1.2-2' }}</strong>
+      </div>
+
+      <button class="btn btn-primary"
+              (click)="submit()"
+              [disabled]="!canSubmit()">
         Submit Transaction
       </button>
     </div>
+
   </div>
+
 </div>

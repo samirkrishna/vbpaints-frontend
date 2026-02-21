@@ -5,7 +5,7 @@ import { VendorService } from "../vendor.service";
 import { DecimalPipe } from "@angular/common";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {PaintFormulaService} from "../paint-formula.service";
+import { PaintFormulaService } from "../paint-formula.service";
 import { ToastService } from '../toast.service';
 
 @Component({
@@ -16,14 +16,18 @@ import { ToastService } from '../toast.service';
   styleUrl: './supplier-transaction.component.css'
 })
 export class SupplierTransactionComponent implements OnInit {
+
   vendorId: number = 0;
   vendors: any[] = [];
   vehicleType = '';
   vehicleNumber = '';
-  paints: any[] = []
+  paints: any[] = [];
+
+  materialStatus: any[] = [];
+  isValidated = false;
 
   items: SupplierTransactionItem[] = [
-    {paintId:0, paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }
+    { paintId: 0, paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }
   ];
 
   constructor(
@@ -31,18 +35,15 @@ export class SupplierTransactionComponent implements OnInit {
     private service: VendorService,
     private paintService: PaintFormulaService,
     private toast: ToastService
-
   ) {}
 
   ngOnInit() {
-    // Get vendorId from route params if available
     this.route.params.subscribe(params => {
       if (params['vendorId']) {
         this.vendorId = +params['vendorId'];
       }
     });
 
-    // Load vendors
     this.loadVendors();
     this.loadPaintNames();
   }
@@ -54,18 +55,14 @@ export class SupplierTransactionComponent implements OnInit {
         if (this.vendors.length > 0 && !this.vendorId) {
           this.vendorId = this.vendors[0].id;
         }
-      },
-      error: (error: any) => console.error('Error loading vendors:', error)
+      }
     });
   }
 
-  loadPaintNames(){
+  loadPaintNames() {
     this.paintService.getAll().subscribe({
-      next:(paints: any[]) => {
-        this.paints = paints
-      },
-      error: (error: any) => console.error('Error loading paints', error)
-    })
+      next: (paints: any[]) => this.paints = paints
+    });
   }
 
   addRow() {
@@ -76,12 +73,22 @@ export class SupplierTransactionComponent implements OnInit {
       quantity: 1,
       pricePerUnit: 0
     });
+    this.resetValidation();
   }
 
   removeRow(index: number) {
     if (this.items.length > 1) {
-      this.items.splice(index);
+      this.items.splice(index, 1);
+      this.resetValidation();
     }
+  }
+
+  onPaintChange(item: SupplierTransactionItem) {
+    const selected = this.paints.find(p => p.id === item.paintId);
+    if (selected) {
+      item.paintName = selected.paintName;
+    }
+    this.resetValidation();
   }
 
   rowTotal(item: SupplierTransactionItem): number {
@@ -92,16 +99,77 @@ export class SupplierTransactionComponent implements OnInit {
     return this.items.reduce((sum, item) => sum + this.rowTotal(item), 0);
   }
 
+  resetValidation() {
+    this.isValidated = false;
+    this.materialStatus = [];
+  }
+
+  validateStock() {
+
+  const request = {
+    items: this.items
+      .filter(item => item.paintId && item.quantity > 0)
+      .map(item => ({
+        paintId: item.paintId!,
+        containerSize: item.containerSize,
+        quantity: item.quantity
+      }))
+  };
+
+  if (request.items.length === 0) {
+    this.toast.error('Add valid items before validation.');
+    return;
+  }
+
+  this.paintService.validateStock(request).subscribe({
+    next: (response) => {
+
+      this.isValidated = response.allAvailable;
+
+      // Map row status back to UI
+      response.rows.forEach(status => {
+        const row = this.items.find(i =>
+          i.paintId === status.paintId &&
+          i.containerSize === status.containerSize
+        );
+
+        if (row) {
+          (row as any).availableQty = status.availableQty;
+          (row as any).available = status.available;
+        }
+      });
+
+      if (response.allAvailable) {
+        this.toast.success('Stock validated successfully.');
+      } else {
+        this.toast.error('Some items have insufficient stock.');
+      }
+    },
+    error: () => {
+      this.toast.error('Stock validation failed.');
+    }
+  });
+}
+
+
   canSubmit(): boolean {
-    return !!(this.vendorId > 0 &&
+    return !!(
+      this.vendorId > 0 &&
       this.vehicleType &&
       this.vehicleNumber &&
-      this.items.some(item => item.paintId && item.quantity > 0 && item.pricePerUnit > 0));
+      this.items.some(item =>
+        item.paintId &&
+        item.quantity > 0 &&
+        item.pricePerUnit > 0
+      ) &&
+      this.isValidated
+    );
   }
 
   submit() {
+
     if (!this.canSubmit()) {
-      this.toast.error('Please fill all required fields and add at least one valid item.');
+      this.toast.error('Please validate stock before submitting.');
       return;
     }
 
@@ -109,7 +177,7 @@ export class SupplierTransactionComponent implements OnInit {
       vendorId: this.vendorId,
       vehicleType: this.vehicleType,
       vehicleNumber: this.vehicleNumber,
-      items: this.items.filter(item => item.paintId && item.quantity > 0)
+      items: this.items
     };
 
     this.service.createSupplier(payload)
@@ -118,23 +186,19 @@ export class SupplierTransactionComponent implements OnInit {
           this.toast.success('Transaction saved successfully!');
           this.resetForm();
         },
-        error: (error) => {
-          console.error('Error saving transaction:', error);
-          this.toast.error('Error saving transaction. Please try again.');
+        error: () => {
+          this.toast.error('Error saving transaction.');
         }
       });
   }
 
   resetForm() {
-    this.items = [{ paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }];
+    this.items = [
+      { paintId: 0, paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }
+    ];
     this.vehicleType = '';
     this.vehicleNumber = '';
-  }
-  onPaintChange(item: SupplierTransactionItem) {
-    console.log('Paint changed:', item.paintId);
-    const selected = this.paints.find(p => p.id === item.paintId);
-    if (selected) {
-      item.paintName = selected.paintName;
-    }
+    this.isValidated = false;
+    this.materialStatus = [];
   }
 }

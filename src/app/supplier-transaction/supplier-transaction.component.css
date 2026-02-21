@@ -1,51 +1,58 @@
+/* =====================================================
+   PAGE LAYOUT
+===================================================== */
+
 :host {
   display: block;
-  background-color: #f4f6f8;
   min-height: 100vh;
+  background: #f4f6f8;
   padding: 40px 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ---------- Container ---------- */
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
-  background-color: #ffffff;
-  padding: 28px;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  padding: 28px 32px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
-/* ---------- Header ---------- */
+/* =====================================================
+   HEADERS
+===================================================== */
 
 h2 {
-  font-size: 20px;
-  margin-bottom: 22px;
-  padding-bottom: 10px;
+  margin: 0 0 24px;
+  padding-bottom: 12px;
   border-bottom: 1px solid #e5e7eb;
+  font-size: 20px;
   color: #111827;
 }
 
 h3 {
-  font-size: 16px;
   margin-bottom: 16px;
+  font-size: 16px;
   color: #111827;
 }
 
-/* ---------- Sections ---------- */
+/* =====================================================
+   FORM SECTION
+===================================================== */
 
 .form-section {
   margin-bottom: 28px;
 }
 
-/* ---------- Form Layout ---------- */
-
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
 }
 
 .form-group {
@@ -54,57 +61,50 @@ h3 {
 }
 
 label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #111827;
+  color: #374151;
 }
 
-/* ---------- Inputs ---------- */
+/* =====================================================
+   INPUTS
+===================================================== */
 
 input,
-select,
-textarea {
-  padding: 8px 10px;
+select {
+  width: 100%;
+  padding: 9px 10px;
   font-size: 14px;
   border: 1px solid #d1d5db;
-  border-radius: 4px;
-  outline: none;
+  border-radius: 6px;
   background: #fff;
+  outline: none;
+  transition: 0.2s;
 }
 
 input:focus,
-select:focus,
-textarea:focus {
+select:focus {
   border-color: #2563eb;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
 }
 
-/* ---------- Table ---------- */
-
-.table-container {
-  overflow-x: hidden;
-}
+/* =====================================================
+   TABLE
+===================================================== */
 
 table {
   width: 100%;
-  table-layout: fixed;
-  margin-top: 12px;
+  border-collapse: collapse;
+  margin-top: 14px;
+  table-layout: fixed; /* ⭐ prevents breaking */
 }
-
-td input,
-td select {
-  width: 100%;
-  box-sizing: border-box;
-}
-
 
 thead th {
+  background: #f9fafb;
   font-size: 13px;
-  font-weight: 600;
   text-align: left;
-  padding: 10px;
-  background-color: #f9fafb;
+  padding: 12px 10px;
   border-bottom: 1px solid #e5e7eb;
   color: #374151;
 }
@@ -115,33 +115,119 @@ tbody td {
   vertical-align: middle;
 }
 
-.total-col {
+/* Prevent overflow inside cells */
+td input,
+td select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Column sizing */
+th:nth-child(1){width:20%;}
+th:nth-child(2){width:14%;}
+th:nth-child(3){width:12%;}
+th:nth-child(4){width:14%;}
+th:nth-child(5){width:12%;}
+th:nth-child(6){width:18%;}
+th:nth-child(7){width:10%;}
+
+/* =====================================================
+   STATUS COLORS
+===================================================== */
+
+.status-ok {
+  color: #16a34a;
   font-weight: 600;
+}
+
+.status-low {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* =====================================================
+   ACTION BAR (IMPORTANT FIX)
+===================================================== */
+
+.action-bar {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid #e5e7eb;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.left-actions,
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.total-display {
+  font-size: 16px;
   color: #111827;
 }
 
-/* ---------- Buttons ---------- */
+/* =====================================================
+   BUTTON SYSTEM
+===================================================== */
 
-.btn-add {
-  margin-top: 14px;
-  padding: 8px 14px;
+.btn {
+  padding: 9px 16px;
+  border-radius: 6px;
   font-size: 14px;
-  border-radius: 4px;
   border: none;
   cursor: pointer;
-  background-color: #e5e7eb;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+/* Primary */
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+/* Secondary */
+.btn-secondary {
+  background: #e5e7eb;
   color: #111827;
 }
 
-.btn-add:hover {
-  background-color: #d1d5db;
+.btn-secondary:hover {
+  background: #d1d5db;
 }
 
+/* Outline */
+.btn-outline {
+  background: white;
+  border: 1px solid #d1d5db;
+}
+
+.btn-outline:hover {
+  background: #f3f4f6;
+}
+
+.btn:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+/* Remove button */
 .btn-remove {
   background: transparent;
-  color: #dc2626;
   border: none;
   font-size: 16px;
+  color: #dc2626;
   cursor: pointer;
 }
 
@@ -149,47 +235,9 @@ tbody td {
   color: #b91c1c;
 }
 
-.btn-remove:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* ---------- Total Section ---------- */
-
-.total-section {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 20px;
-  margin-top: 20px;
-  text-align: right;
-}
-
-.total-section h3 {
-  font-size: 18px;
-  margin-bottom: 14px;
-}
-
-/* ---------- Submit Button ---------- */
-
-.btn-submit {
-  padding: 10px 18px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  background-color: #2563eb;
-  color: #ffffff;
-}
-
-.btn-submit:hover:not(:disabled) {
-  background-color: #1d4ed8;
-}
-
-.btn-submit:disabled {
-  background-color: #93c5fd;
-  cursor: not-allowed;
-}
-
-/* ---------- Responsive ---------- */
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media (max-width: 768px) {
 
@@ -198,17 +246,14 @@ tbody td {
     padding: 20px;
   }
 
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
   table,
   thead,
   tbody,
-  th,
+  tr,
   td,
-  tr {
+  th {
     display: block;
+    width: 100%;
   }
 
   thead {
@@ -218,6 +263,12 @@ tbody td {
   tbody td {
     display: flex;
     flex-direction: column;
+    gap: 4px;
     padding: 8px 0;
+  }
+
+  .action-bar {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

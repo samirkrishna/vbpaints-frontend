@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {PaintFormula} from "./model/paint-formula.model";
 import {PaintBatch} from "./model/paint-batch.model";
 import { environment } from '../environments/environment.prod';
+import { StockValidationRequest, StockValidationResponse } from './stock-validation-model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -33,6 +34,14 @@ export class PaintFormulaService {
   getBatchDetails(id: number) {
     return this.http.get<any>(`${this.apiUrl}/api/v1/paint-batches/batchDetails/${id}`);
   }
+
+   validateStock(request: StockValidationRequest) {
+    return this.http.post<StockValidationResponse>(
+      `${this.apiUrl}/api/v1/validate`,
+      request
+    );
+  }
+
 
 
 }
