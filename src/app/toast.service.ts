@@ -8,14 +8,16 @@ export class ToastService {
 
   constructor(private snackBar: MatSnackBar) {}
 
-  private show(message: string, type: string) {
-    this.snackBar.open(message, 'Close', {
-      duration: 3000,
-      horizontalPosition: 'right',
-      verticalPosition: 'bottom',
-      panelClass: [`toast-${type}`]
-    });
-  }
+ private show(message: string, type: string) {
+   this.snackBar.open(message, 'Close', {
+     duration: 3000,
+     horizontalPosition: 'center',
+     verticalPosition: 'bottom',
+     panelClass: [`toast-${type}`]
+   });
+ }
+
+
 
   success(message: string) {
     this.show(message, 'success');

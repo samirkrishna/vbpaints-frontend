@@ -4,11 +4,13 @@ import {VendorService} from "../vendor.service";
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {DatePipe, NgForOf} from "@angular/common";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-supplier-transaction-details',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     DatePipe,
     NgForOf
@@ -55,4 +57,18 @@ export class SupplierTransactionDetailsComponent implements OnInit{
     this.service.getAll()
       .subscribe(v => this.vendors = v);
   }
+
+selectedTransaction: SupplierTransactionRequest | null = null;
+showPopup = false;
+
+openPopup(transaction: SupplierTransactionRequest) {
+  this.selectedTransaction = transaction;
+  this.showPopup = true;
+}
+
+closePopup() {
+  this.showPopup = false;
+  this.selectedTransaction = null;
+}
+
 }

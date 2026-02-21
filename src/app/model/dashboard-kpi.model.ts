@@ -3,4 +3,5 @@ export interface DashboardKpi {
   lowStockAlerts: number;
   batchesThisMonth: number;
   recentPurchasesCount: number;
+  monthlySales: number;
 }

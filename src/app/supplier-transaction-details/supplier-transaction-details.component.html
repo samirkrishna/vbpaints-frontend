@@ -41,10 +41,49 @@
       <td>{{ t.vehicleType }} - {{ t.vehicleNumber }}</td>
       <td>₹ {{ t.totalAmount }}</td>
       <td>
-        <button (click)="view(t.transactionId)">👁</button>
+        <button (click)="openPopup(t)">View</button>
       </td>
     </tr>
     </tbody>
   </table>
+
+</div>
+
+<div class="popup-overlay" *ngIf="showPopup">
+
+  <div class="popup">
+
+    <h2>Purchase Details</h2>
+
+    <p><b>Vendor:</b> {{selectedTransaction?.vendorName}}</p>
+    <p><b>Vehicle Type:</b> {{selectedTransaction?.vehicleType}}</p>
+    <p><b>Vehicle Number:</b> {{selectedTransaction?.vehicleNumber}}</p>
+    <p><b>Date:</b> {{selectedTransaction?.transactionDate | date:'medium'}}</p>
+
+    <h3>Items</h3>
+
+    <table>
+      <tr>
+        <th>Paint</th>
+        <th>Container Size</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+
+      <tr *ngFor="let item of selectedTransaction?.items">
+        <td>{{item.paintName}}</td>
+        <td>{{item.containerSize}} L</td>
+        <td>{{item.quantity}}</td>
+        <td>₹{{item.pricePerUnit}}</td>
+        <td>₹{{item.quantity * item.pricePerUnit}}</td>
+      </tr>
+    </table>
+
+    <h3>Total: ₹{{selectedTransaction?.totalAmount}}</h3>
+
+    <button (click)="closePopup()">Close</button>
+
+  </div>
 
 </div>

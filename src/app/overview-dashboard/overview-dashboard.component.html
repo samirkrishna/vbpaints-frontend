@@ -22,6 +22,14 @@
       <span>Recent Purchases</span>
       <h3>{{ kpis.recentPurchasesCount }}</h3>
     </div>
+
+    <div class="kpi-card">
+      <span>Monthly Sales</span>
+      <h3 class="sales">
+        ₹{{ kpis.monthlySales | number:'1.0-0' }}
+      </h3>
+    </div>
+
   </div>
 
   <!-- Activity Panels -->

@@ -169,3 +169,45 @@ td button:hover {
     font-size: 13px;
   }
 }
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.popup {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.popup table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.popup th,
+.popup td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.popup button {
+  margin-top: 15px;
+  padding: 8px 15px;
+}
+
