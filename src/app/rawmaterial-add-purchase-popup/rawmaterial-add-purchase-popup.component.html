@@ -54,7 +54,7 @@
 
     <div class="actions">
       <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-save" (click)="savePurchase()">Save</button>
+      <button type="submit" class="btn btn-save" (click)="savePurchase()" [disabled]="purchaseForm.invalid">Save</button>
     </div>
 
   </form>

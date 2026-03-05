@@ -88,10 +88,10 @@ export class RawmaterialAddPurchasePopupComponent{
 
 createLevel(): FormGroup {
   return this.fb.group({
-    packSize: [0, Validators.required],
+    packSize: [null, Validators.required],
     unit: ['KG', Validators.required],
-    itemCount: [0, Validators.required],
-    unitPrice: [0, Validators.required]
+    itemCount: [null, Validators.required],
+    unitPrice: [null, Validators.required]
   });
 }
 

@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {DatePipe, NgForOf} from "@angular/common";
 import { CommonModule } from "@angular/common";
+import { EmptyDataComponent } from '../shared/components/empty-data/empty-data.component';
 
 @Component({
   selector: 'app-supplier-transaction-details',
@@ -13,7 +14,8 @@ import { CommonModule } from "@angular/common";
     CommonModule,
     FormsModule,
     DatePipe,
-    NgForOf
+    NgForOf,
+    EmptyDataComponent
   ],
   templateUrl: './supplier-transaction-details.component.html',
   styleUrl: './supplier-transaction-details.component.css'

@@ -1,0 +1,11 @@
+<div class="empty-container">
+  <mat-icon class="empty-icon">{{icon}}</mat-icon>
+
+  <h3>{{title}}</h3>
+
+  <p>{{description}}</p>
+
+  <button *ngIf="buttonText" mat-raised-button color="primary" (click)="action.emit()">
+    {{buttonText}}
+  </button>
+</div>

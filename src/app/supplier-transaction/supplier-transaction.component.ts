@@ -92,7 +92,7 @@ export class SupplierTransactionComponent implements OnInit {
   }
 
   rowTotal(item: SupplierTransactionItem): number {
-    return item.containerSize * item.quantity * item.pricePerUnit;
+    return  item.quantity * item.pricePerUnit;
   }
 
   grandTotal(): number {
