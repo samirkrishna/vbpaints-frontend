@@ -2,13 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MaterialCategory } from './model/material-category.model';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaterialCategoryService {
 
-  private api = 'http://localhost:8080/api/material-categories';
+  private baseUrl:string = environment.apiUrl;
+
+  private api = `${this.baseUrl}/api/material-categories`;
 
   constructor(private http: HttpClient) {}
 
