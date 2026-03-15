@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RawMaterialService } from '../rawmaterial-service.service';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../toast.service';
+import { MaterialCategoryService } from '../material-service.service';
+import { MaterialCategory } from '../model/material-category.model';
 
 @Component({
   selector: 'app-raw-material',
@@ -16,21 +18,23 @@ export class RawMaterialComponent {
 rawMaterialForm: FormGroup;
   isSubmitting = false;
 
-  categories = ['Pigment', 'Solvent', 'Resin', 'Additive'];
+  categories: MaterialCategory[] = [];
   units = ['KG', 'LITERS', 'GRAMS'];
 
   constructor(
     private fb: FormBuilder,
     private rawMaterialService: RawMaterialService,
+    private categoryService: MaterialCategoryService,
     private toast: ToastService
   ) {
     this.rawMaterialForm = this.fb.group({
       name: ['', Validators.required],
-      category: [this.categories[0], Validators.required],
+      category: [null, Validators.required],
       unitOfMeasure: [this.units[0], Validators.required],
       minimumStockLevel: [null, [Validators.required, Validators.min(0)]],
       description: ['']
     });
+    this.loadCategories();
   }
 
   submit(): void {
@@ -40,8 +44,13 @@ rawMaterialForm: FormGroup;
     }
 
     this.isSubmitting = true;
+    const formValue = this.rawMaterialForm.value;
+    const payload = {
+      ...formValue,
+      category: formValue.category?.name
+    };
 
-    this.rawMaterialService.createRawMaterial(this.rawMaterialForm.value)
+    this.rawMaterialService.createRawMaterial(payload)
       .subscribe({
         next: () => {
           this.toast.success('Raw material created successfully');
@@ -54,6 +63,24 @@ rawMaterialForm: FormGroup;
         }
       });
   }
+
+loadCategories() {
+  this.categoryService.getAll()
+    .subscribe({
+      next: (data) => {
+        this.categories = data;
+
+        if (this.categories.length > 0) {
+          this.rawMaterialForm.patchValue({
+            category: this.categories[0]
+          });
+        }
+      },
+      error: () => {
+        this.toast.error('Failed to load categories');
+      }
+    });
+}
 
   cancel(): void {
     this.rawMaterialForm.reset();

@@ -15,6 +15,7 @@ import {SupplierTransactionComponent} from "./supplier-transaction/supplier-tran
 import {
   SupplierTransactionDetailsComponent
 } from "./supplier-transaction-details/supplier-transaction-details.component";
+import { MaterialCategoryManagementComponent } from './material-category-management/material-category-management.component';
 
 export const routes: Routes = [
   {
@@ -74,5 +75,9 @@ export const routes: Routes = [
     path:'supplierTransactionDetails:id',
     component: SupplierTransactionDetailsComponent
   },
+  {
+    path:'materialcategories',
+    component: MaterialCategoryManagementComponent
+  }
 
 ];

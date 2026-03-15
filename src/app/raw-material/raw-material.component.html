@@ -17,8 +17,9 @@
     <div class="form-group">
       <label>Material Category</label>
       <select formControlName="category">
-        <option value="">Select Category</option>
-        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+        <option *ngFor="let c of categories" [ngValue]="c">
+          {{ c.name }}
+        </option>
       </select>
     </div>
 
