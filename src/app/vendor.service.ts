@@ -7,7 +7,9 @@ import {SupplierTransactionRequest} from "./model/supplier-transacation-request.
 @Injectable({ providedIn: 'root' })
 export class VendorService {
 
-  private BASE_URL = 'http://localhost:8080/api/v1/vendors';
+  private apiUrl: string = environment.apiUrl;
+
+   private BASE_URL:string = environment.apiUrl/api/v1/vendors;
 
   constructor(private http: HttpClient) {}
 
@@ -28,12 +30,12 @@ export class VendorService {
   }
 
   createSupplier(payload: SupplierTransactionRequest ): Observable<SupplierTransactionRequest>{
-    return this.http.post<SupplierTransactionRequest>('http://localhost:8080/api/v1/supplier-transactions',payload)
+    return this.http.post<SupplierTransactionRequest>(`${this.apiUrl}/api/v1/supplier-transactions`,payload)
   }
 
   getTransactions(filters: any) {
     return this.http.get<SupplierTransactionRequest[]>(
-      `http://localhost:8080/api/v1/supplier-transactions/search`,
+      `${this.apiUrl}/api/v1/supplier-transactions/search`,
       { params: filters }
     );
   }
