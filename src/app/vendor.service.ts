@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Vendor} from "./model/vendor.model";
+import { environment } from '../environments/environment.prod';
 import {SupplierTransactionRequest} from "./model/supplier-transacation-request.model";
 
 @Injectable({ providedIn: 'root' })
