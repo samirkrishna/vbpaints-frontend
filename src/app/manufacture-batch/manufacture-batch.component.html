@@ -23,11 +23,11 @@
 
       <div class="form-group">
         <label>Batch Number</label>
-        <input type="text" formControlName="batchNumber" readonly>
+        <input type="text" formControlName="batchNumber" >
       </div>
 
       <div class="form-group">
-        <label>Batch Size</label>
+        <label>Number of Batches</label>
         <input type="number" formControlName="batchSize" (change)="validate()">
       </div>
     </div>
@@ -96,8 +96,9 @@
               <select formControlName="size">
                 <option value="">Select Size</option>
                 <option [value]="1">1 L</option>
-                <option [value]="5">5 L</option>
+                <option [value]="4">4 L</option>
                 <option [value]="10">10 L</option>
+                <option [value]="20">20 L</option>
               </select>
             </td>
 
