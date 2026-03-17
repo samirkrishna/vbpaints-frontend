@@ -9,7 +9,7 @@ export class VendorService {
 
   private apiUrl: string = environment.apiUrl;
 
-   private BASE_URL:string = environment.apiUrl/api/v1/vendors;
+   private BASE_URL:string = `${this.apiUrl}/api/v1/vendors`;
 
   constructor(private http: HttpClient) {}
 
