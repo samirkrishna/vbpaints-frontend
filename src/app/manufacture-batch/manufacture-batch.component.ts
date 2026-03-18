@@ -45,17 +45,21 @@ export class ManufactureBatchComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       paintFormulaId: ['', Validators.required],
-      batchNumber: [{ value: '', disabled: true }],
+      batchNumber: ['', Validators.required],
       batchSize: [null, Validators.required],
       batchUnit: ['', Validators.required],
       manufacturingDate: [null, Validators.required],
       supervisorName: ['', Validators.required],
 
-      packs: this.fb.array([]) 
+      packs: this.fb.array([])
     });
     this.addPack();   // 👈 THIS is what you're missing
 
     this.loadPaintFormulas();
+
+      this.form.get('batchSize')?.valueChanges.subscribe(() => {
+        this.validate();
+      });
   }
 
   /** 🔹 Fetch paints dynamically */
@@ -71,23 +75,15 @@ export class ManufactureBatchComponent implements OnInit {
     });
   }
 
-  onPaintChange(): void {
-    const formulaId = this.form.get('paintFormulaId')?.value;
+onPaintChange(): void {
+  const formulaId = this.form.get('paintFormulaId')?.value;
+  const batchSize = this.form.get('batchSize')?.value;
 
-    const selectedFormula = this.paintFormulas.find(
-       f => f.id == formulaId
-    );
+  if (!formulaId || !batchSize) return;
 
-    this.form.patchValue({batchSize: selectedFormula?.batchSize || null,batchUnit: selectedFormula?.batchUnit || null});
+  this.validate();
+}
 
-    const batchSize = this.form.get('batchSize')?.value;
-
-    if (!formulaId || !batchSize) return;
-
-    this.generateBatchNumber();
-
-    this.validate();
-  }
 
   validate(): void {
     const formulaId = this.form.get('paintFormulaId')?.value;
@@ -107,16 +103,15 @@ export class ManufactureBatchComponent implements OnInit {
   }
 
 
-  generateBatchNumber(): void {
-    const num = Math.floor(1000 + Math.random() * 9000);
-    this.form.patchValue({
-      batchNumber: `BATCH-${num}`
-    });
-  }
+//   generateBatchNumber(): void {
+//     const num = Math.floor(1000 + Math.random() * 9000);
+//     this.form.patchValue({
+//       batchNumber: `BATCH-${num}`
+//     });
+//   }
 
   manufacture(): void {
     //if (this.form.invalid || !this.canManufacture) return;
-    console.log("sam")
     const payload = {
       ...this.form.getRawValue()
     };
@@ -124,7 +119,7 @@ export class ManufactureBatchComponent implements OnInit {
     this.service.manufacture(payload).subscribe({
       next: () => {
         this.toast.success('Batch manufactured successfully');
-        
+
         // 1️⃣ Reset entire form
         this.form.reset();
 

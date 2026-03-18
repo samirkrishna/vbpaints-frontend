@@ -112,14 +112,14 @@ calculateGrandTotal(): number {
   return this.purchaseLevels.controls.reduce((sum: number, ctrl: any) => {
     const level = ctrl.value;
     return sum +
-      (level.itemCount || 0) *
+      (level.packSize || 0) * (level.itemCount || 0) *
       (level.unitPrice || 0);
   }, 0);
 }
 calculateLevelTotal(index: number): number {
   const level = this.purchaseLevels.at(index).value;
 
-  return (level.itemCount || 0) *
+  return (level.packSize || 0) * (level.itemCount || 0) *
          (level.unitPrice || 0);
 }
 
