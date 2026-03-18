@@ -33,6 +33,9 @@ export class ManufactureBatchComponent implements OnInit {
 
   batchInfo: any = {};
 
+  readonly LITERS_PER_BATCH = 450;
+
+
   constructor(
     private fb: FormBuilder,
     private service: ManufactureBatchService,
@@ -201,24 +204,41 @@ get totalPackedLiters(): number {
 }
 
 get remainingLiters(): number {
-  return (this.form.get('batchSize')?.value || 0) - this.totalPackedLiters;
+  const batchSize = this.form.get('batchSize')?.value || 0;
+  const totalLiters = batchSize * 450; 
+  return totalLiters - this.totalPackedLiters;
 }
 
+
 isPackingValid(): boolean {
-  return this.totalPackedLiters <= (this.form.get('batchSize')?.value || 0);
+  const batchSize = this.form.get('batchSize')?.value || 0;
+  const totalLiters = batchSize * this.LITERS_PER_BATCH;
+
+  return this.totalPackedLiters <= totalLiters;
 }
 
 get isManufactureDisabled(): boolean {
+  console.log("Checking if manufacture button should be disabled..."+this.form.invalid);
 
   if (this.form.invalid) return true;
+  console.log("Form is valid");
 
   if (!this.canManufacture) return true; // raw material validation
 
+  console.log("Raw materials are sufficient");
+
   if (this.packs.length === 0) return true;
 
-  const batchSize = this.form.get('batchSize')?.value || 0;
+  console.log("At least one pack added");
 
-  if (this.getTotalPacked() !== batchSize) return true;
+  const batchSize = this.form.get('batchSize')?.value || 0;
+  const totalLiters = batchSize * this.LITERS_PER_BATCH;
+
+  if (this.getTotalPacked() !== totalLiters) return true;
+
+  console.log("Total packed liters matches batch size");
+
+  console.log("Manufacture button enabled");
 
   return false;
 }
