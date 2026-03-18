@@ -47,7 +47,6 @@ export class ManufactureBatchComponent implements OnInit {
       paintFormulaId: ['', Validators.required],
       batchNumber: ['', Validators.required],
       batchSize: [null, Validators.required],
-      batchUnit: ['', Validators.required],
       manufacturingDate: [null, Validators.required],
       supervisorName: ['', Validators.required],
 
@@ -213,7 +212,8 @@ isPackingValid(): boolean {
 }
 
 get isManufactureDisabled(): boolean {
-  console.log("Checking if manufacture button should be disabled..."+this.form.invalid);
+  this.logInvalidControls();
+  this.logAllErrors(this.form);
 
   if (this.form.invalid) return true;
   console.log("Form is valid");
@@ -236,6 +236,31 @@ get isManufactureDisabled(): boolean {
   console.log("Manufacture button enabled");
 
   return false;
+}
+
+logInvalidControls() {
+  Object.keys(this.form.controls).forEach(key => {
+    const control = this.form.get(key);
+
+    if (control && control.invalid) {
+      console.log('Invalid field:', key, control.errors);
+    }
+  });
+}
+
+logAllErrors(form: any, path: string = '') {
+  Object.keys(form.controls).forEach(key => {
+    const control = form.get(key);
+    const currentPath = path ? `${path}.${key}` : key;
+
+    if (control.errors) {
+      console.log(currentPath, control.errors);
+    }
+
+    if (control.controls) {
+      this.logAllErrors(control, currentPath);
+    }
+  });
 }
 
 getTotalPacked(): number {
