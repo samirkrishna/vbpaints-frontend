@@ -1,49 +1,126 @@
+/* Page */
 .container {
   padding: 20px;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
+/* Title */
+h2 {
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+/* Table */
 table {
   width: 100%;
-  background: white;
+  background: #ffffff;
   border-collapse: collapse;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-th, td {
-  padding: 12px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
+/* Header */
 th {
   background-color: #f9fafb;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
 }
 
+/* Cells */
+td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: left;
+}
+
+/* Center specific numeric columns */
+th:nth-child(4),
+td:nth-child(4) {
+  text-align: center;   /* Min Stock */
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  text-align: center;   /* Unit */
+}
+
+/* Description slightly wider */
+th:nth-child(5),
+td:nth-child(5) {
+  width: 25%;
+}
+
+/* Actions column */
+th:last-child,
+td:last-child {
+  text-align: center;
+  width: 160px;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  outline: none;
+  box-sizing: border-box; /* ⭐ important fix */
+}
+
+input:focus {
+  border-color: #3b82f6;
+}
+
+/* Actions layout */
 .actions {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 8px;
 }
 
+/* Buttons */
 .btn {
   padding: 6px 10px;
+  font-size: 13px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
+  min-width: 65px;
 }
 
+/* Button colors */
 .btn-edit {
   background-color: #facc15;
 }
 
 .btn-save {
   background-color: #22c55e;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-delete {
   background-color: #ef4444;
-  color: white;
+  color: #ffffff;
 }
 
-input {
-  width: 100%;
-  padding: 6px;
+/* Hover */
+.btn-edit:hover {
+  background-color: #eab308;
+}
+
+.btn-save:hover {
+  background-color: #16a34a;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
 }
