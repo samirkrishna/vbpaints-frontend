@@ -162,7 +162,7 @@
       [class.btn-primary]="!isManufactureDisabled"
       [class.btn-disabled]="isManufactureDisabled"
       [disabled]="isManufactureDisabled"
-      (click)="manufacture()">
+      (click)="openConfirmation()">
       Manufacture Batch
     </button>
     <!-- <div *ngIf="getTotalPacked() !== form.get('batchSize')?.value"
@@ -178,5 +178,5 @@
   [batchInfo]="batchInfo"
   [materials]="materialStatus"
   (cancel)="showConfirmation = false"
-  (confirm)="confirmBatch()">
+  (confirm)="manufacture()">
 </app-batch-confirmation>

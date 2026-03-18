@@ -133,6 +133,8 @@ onPaintChange(): void {
         this.addPack();
 
         this.loadPaintFormulas();
+
+        this.showConfirmation = false;
       },
       error: err => {
         this.toast.error(err?.error?.message || 'Manufacturing failed');
@@ -152,7 +154,7 @@ openConfirmation(): void {
       p => p.id == this.form.get('paintFormulaId')?.value
     )?.paintName,
     batchNumber: this.form.get('batchNumber')?.value,
-    quantityProduced: `${this.form.get('batchSize')?.value} ${this.form.get('batchUnit')?.value}`
+    quantityProduced: `450 liters`,
   };
 
   this.showConfirmation = true;
@@ -212,55 +214,18 @@ isPackingValid(): boolean {
 }
 
 get isManufactureDisabled(): boolean {
-  this.logInvalidControls();
-  this.logAllErrors(this.form);
 
   if (this.form.invalid) return true;
-  console.log("Form is valid");
 
   if (!this.canManufacture) return true; // raw material validation
 
-  console.log("Raw materials are sufficient");
-
   if (this.packs.length === 0) return true;
-
-  console.log("At least one pack added");
 
   const batchSize = this.form.get('batchSize')?.value || 0;
   const totalLiters = batchSize * this.LITERS_PER_BATCH;
 
   if (this.getTotalPacked() !== totalLiters) return true;
-
-  console.log("Total packed liters matches batch size");
-
-  console.log("Manufacture button enabled");
-
   return false;
-}
-
-logInvalidControls() {
-  Object.keys(this.form.controls).forEach(key => {
-    const control = this.form.get(key);
-
-    if (control && control.invalid) {
-      console.log('Invalid field:', key, control.errors);
-    }
-  });
-}
-
-logAllErrors(form: any, path: string = '') {
-  Object.keys(form.controls).forEach(key => {
-    const control = form.get(key);
-    const currentPath = path ? `${path}.${key}` : key;
-
-    if (control.errors) {
-      console.log(currentPath, control.errors);
-    }
-
-    if (control.controls) {
-      this.logAllErrors(control, currentPath);
-    }
-  });
 }
 
 getTotalPacked(): number {
