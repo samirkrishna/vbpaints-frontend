@@ -61,6 +61,8 @@ export class ManufactureBatchComponent implements OnInit {
     
     this.addPack(); 
 
+    this.loadPaintFormulas();
+
    
       // ✅ EDIT MODE DETECTION
     this.route.params.subscribe(params => {
@@ -70,13 +72,9 @@ export class ManufactureBatchComponent implements OnInit {
         this.batchId = +params['id'];
         this.loadBatchDetails();
       }else{
-        console.log('Not in edit mode, loading paints normally');
-        this.loadPaintFormulas();
-
         this.form.get('batchSize')?.valueChanges.subscribe(() => {
           this.validate();
         });
-
       }
     });
   }
