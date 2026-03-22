@@ -51,4 +51,8 @@ export class ManufactureBatchService {
       payload
     );
   }
+
+  getInventory() {
+     return this.http.get<any[]>(`${this.batchUrl}/inventory/paint`);
+    }
 }

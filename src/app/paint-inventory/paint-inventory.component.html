@@ -1,0 +1,51 @@
+<div class="container">
+
+  <h2>🎨 Paint Inventory</h2>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    Loading inventory...
+  </div>
+
+  <!-- Empty -->
+  <div *ngIf="!loading && inventory.length === 0" class="empty">
+    No inventory available
+  </div>
+
+  <!-- Inventory Cards -->
+  <div class="inventory-grid">
+
+    <div class="card" *ngFor="let paint of groupedInventory | keyvalue">
+
+      <!-- Header -->
+      <div class="card-header">
+        <h3>{{ paint.key }}</h3>
+        <span class="total">
+         {{ getTotalLiters(getItems(paint.value)) }} L
+        </span>
+      </div>
+
+      <!-- Table -->
+      <table>
+        <thead>
+          <tr>
+            <th>Can Size</th>
+            <th>Cans</th>
+            <th>Total Liters</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of getItems(paint.value)">
+            <td>{{ item.size }} L</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.size * item.quantity }} L</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

@@ -16,6 +16,7 @@ import {
   SupplierTransactionDetailsComponent
 } from "./supplier-transaction-details/supplier-transaction-details.component";
 import { MaterialCategoryManagementComponent } from './material-category-management/material-category-management.component';
+import { PaintInventoryComponent } from './paint-inventory/paint-inventory.component';
 
 export const routes: Routes = [
   {
@@ -82,6 +83,10 @@ export const routes: Routes = [
   {
     path: 'edit-batch/:id',
     component: ManufactureBatchComponent
+  },
+  {
+    path: 'paint/inventory',
+    component: PaintInventoryComponent
   }
 
 ];
