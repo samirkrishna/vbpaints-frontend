@@ -10,6 +10,7 @@ import { ManufactureBatchService } from '../manufatcure-batch.service';
 import { BatchConfirmationComponent } from '../batch-confirmation/batch-confirmation.component';
 import { FormArray } from '@angular/forms';
 import { ToastService } from '../toast.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -35,11 +36,16 @@ export class ManufactureBatchComponent implements OnInit {
 
   readonly LITERS_PER_BATCH = 450;
 
+  isEditMode = false;
+  batchId!: number;
+
 
   constructor(
     private fb: FormBuilder,
     private service: ManufactureBatchService,
-    private toast: ToastService
+    private toast: ToastService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -52,13 +58,27 @@ export class ManufactureBatchComponent implements OnInit {
 
       packs: this.fb.array([])
     });
-    this.addPack();   // 👈 THIS is what you're missing
+    
+    this.addPack(); 
 
-    this.loadPaintFormulas();
+   
+      // ✅ EDIT MODE DETECTION
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        console.log('Edit mode detected for batch ID:', params['id']);
+        this.isEditMode = true;
+        this.batchId = +params['id'];
+        this.loadBatchDetails();
+      }else{
+        console.log('Not in edit mode, loading paints normally');
+        this.loadPaintFormulas();
 
-      this.form.get('batchSize')?.valueChanges.subscribe(() => {
-        this.validate();
-      });
+        this.form.get('batchSize')?.valueChanges.subscribe(() => {
+          this.validate();
+        });
+
+      }
+    });
   }
 
   /** 🔹 Fetch paints dynamically */
@@ -69,10 +89,61 @@ export class ManufactureBatchComponent implements OnInit {
         const formulas:any[] =  Array.isArray(payload) ? payload : (payload.items ?? []);
         this.paintFormulas = formulas.filter(f => f.active);
         this.materialStatus = [];
+
+        // ✅ Ensure current formula is included even if inactive
+      if (this.isEditMode && this.batchId) {
+
+        this.form.get('paintFormulaId')?.disable();
+        this.service.getBatchDetails(this.batchId).subscribe((batch: any) => {
+          const exists = this.paintFormulas.some(f => f.id === batch.paintFormulaId);
+
+          if (!exists) {
+            const fullList = Array.isArray(payload) ? payload : (payload.items ?? []);
+            const selected = fullList.find((f: { id: any; }) => f.id === batch.paintFormulaId);
+            if (selected) {
+              this.paintFormulas.push(selected);
+            }
+          }
+
+          this.loadBatchDetails(); // finally load
+        });
+      }
       },
       error: () => this.toast.error('Failed to load paint formulas')
     });
   }
+  
+
+  loadBatchDetails(): void {
+  this.service.getBatchDetails(this.batchId).subscribe({
+    next: (res: any) => {
+
+      // ✅ Patch basic fields
+      this.form.patchValue({
+        paintFormulaId: res.paintFormulaId,
+        batchNumber: res.batchNumber,
+        batchSize: res.batchSize,
+        manufacturingDate: res.manufacturingDate,
+        supervisorName: res.supervisorName
+      });
+
+      // ✅ Handle packs JSON
+      const packs = JSON.parse(res.packs || '[]');
+
+      this.packs.clear();
+
+      packs.forEach((p: any) => {
+        this.packs.push(this.fb.group({
+          size: [p.size, Validators.required],
+          count: [p.count, [Validators.required, Validators.min(1)]]
+        }));
+      });
+
+      this.validate();
+    },
+    error: () => this.toast.error('Failed to load batch details')
+  });
+}
 
 onPaintChange(): void {
   const formulaId = this.form.get('paintFormulaId')?.value;
@@ -109,29 +180,32 @@ onPaintChange(): void {
 //     });
 //   }
 
-  manufacture(): void {
-    //if (this.form.invalid || !this.canManufacture) return;
-    const payload = {
-      ...this.form.getRawValue()
-    };
+ manufacture(): void {
+  const payload = {
+    ...this.form.getRawValue()
+  };
 
+  if (this.isEditMode) {
+    this.service.updateBatch(this.batchId, payload).subscribe({
+      next: () => {
+        this.toast.success('Batch updated successfully');
+        this.showConfirmation = false;
+        this.router.navigate(['/manufacturing']); // optional redirect
+      },
+      error: err => {
+        this.toast.error(err?.error?.message || 'Update failed');
+      }
+    });
+  } else {
     this.service.manufacture(payload).subscribe({
       next: () => {
         this.toast.success('Batch manufactured successfully');
 
-        // 1️⃣ Reset entire form
         this.form.reset();
-
-        // 2️⃣ Clear material status
         this.materialStatus = [];
         this.canManufacture = false;
-
-        // 3️⃣ CLEAR packs properly
         this.packs.clear();
-
-        // 4️⃣ Add ONE fresh empty row
         this.addPack();
-
         this.loadPaintFormulas();
 
         this.showConfirmation = false;
@@ -141,6 +215,7 @@ onPaintChange(): void {
       }
     });
   }
+}
 
   cancel(): void {
     this.form.reset();
@@ -149,12 +224,13 @@ onPaintChange(): void {
   }
 
 openConfirmation(): void {
+  const batchSize = this.form.get('batchSize')?.value || 0;
   this.batchInfo = {
     paintName: this.paintFormulas.find(
       p => p.id == this.form.get('paintFormulaId')?.value
     )?.paintName,
     batchNumber: this.form.get('batchNumber')?.value,
-    quantityProduced: `450 liters`,
+    quantityProduced: `${this.LITERS_PER_BATCH*batchSize} liters`,
   };
 
   this.showConfirmation = true;
@@ -201,7 +277,7 @@ get totalPackedLiters(): number {
 
 get remainingLiters(): number {
   const batchSize = this.form.get('batchSize')?.value || 0;
-  const totalLiters = batchSize * 450; 
+  const totalLiters = batchSize * this.LITERS_PER_BATCH; 
   return totalLiters - this.totalPackedLiters;
 }
 

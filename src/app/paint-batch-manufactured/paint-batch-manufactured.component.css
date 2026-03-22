@@ -48,3 +48,13 @@ th {
   background-color: #dcfce7;
   color: #166534;
 }
+button {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s ease;
+}

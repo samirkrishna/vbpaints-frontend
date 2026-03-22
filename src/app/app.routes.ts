@@ -78,6 +78,10 @@ export const routes: Routes = [
   {
     path:'materialcategories',
     component: MaterialCategoryManagementComponent
+  },
+  {
+    path: 'edit-batch/:id',
+    component: ManufactureBatchComponent
   }
 
 ];

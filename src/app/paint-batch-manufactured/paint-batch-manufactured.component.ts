@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PaintFormulaService} from "../paint-formula.service";
 import {PaintBatch} from "../model/paint-batch.model";
 import {CommonModule, DatePipe} from "@angular/common";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-paint-batch-manufactured',
@@ -18,7 +19,7 @@ export class PaintBatchManufacturedComponent implements OnInit{
   showModal = false;
   selectedBatch: any;
 
-  constructor(private service: PaintFormulaService) {}
+  constructor(private service: PaintFormulaService,private router: Router) {}
 
   ngOnInit(): void {
     this.loadBatches();
@@ -28,6 +29,10 @@ export class PaintBatchManufacturedComponent implements OnInit{
     this.service.getManufacturedBatches().subscribe({
       next: data => this.batches = data
     });
+  }
+
+  editBatch(id: number) {
+    this.router.navigate(['/edit-batch', id]);
   }
 
 }

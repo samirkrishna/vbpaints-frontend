@@ -32,4 +32,23 @@ export class ManufactureBatchService {
       payload
     );
   }
+
+    // =========================================
+  // 🔹 GET SINGLE BATCH (EDIT)
+  // =========================================
+  getBatchDetails(id: number): Observable<any> {
+    return this.http.get(
+      `${this.batchUrl}/batchDetails/${id}`
+    );
+  }
+
+   // =========================================
+  // 🔹 UPDATE BATCH (EDIT SAVE)
+  // =========================================
+  updateBatch(id: number, payload: any): Observable<any> {
+    return this.http.put(
+      `${this.batchUrl}/update/${id}`,
+      payload
+    );
+  }
 }
