@@ -26,6 +26,8 @@ export class SupplierTransactionComponent implements OnInit {
   materialStatus: any[] = [];
   isValidated = false;
 
+  transactionDate: string = '';
+
   items: SupplierTransactionItem[] = [
     { paintId: 0, paintName: '', containerSize: 5, quantity: 1, pricePerUnit: 0 }
   ];
@@ -38,6 +40,7 @@ export class SupplierTransactionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.transactionDate = new Date().toISOString().substring(0, 10); 
     this.route.params.subscribe(params => {
       if (params['vendorId']) {
         this.vendorId = +params['vendorId'];
@@ -157,6 +160,7 @@ export class SupplierTransactionComponent implements OnInit {
       this.vendorId > 0 &&
       this.vehicleType &&
       this.vehicleNumber &&
+      this.transactionDate &&
       this.items.some(item =>
         item.paintId &&
         item.quantity > 0 &&
@@ -177,6 +181,7 @@ export class SupplierTransactionComponent implements OnInit {
       vendorId: this.vendorId,
       vehicleType: this.vehicleType,
       vehicleNumber: this.vehicleNumber,
+      transactionDate: this.transactionDate,
       items: this.items
     };
 
@@ -199,6 +204,7 @@ export class SupplierTransactionComponent implements OnInit {
     this.vehicleType = '';
     this.vehicleNumber = '';
     this.isValidated = false;
+    this.transactionDate = new Date().toISOString().substring(0, 10); 
     this.materialStatus = [];
   }
 }
