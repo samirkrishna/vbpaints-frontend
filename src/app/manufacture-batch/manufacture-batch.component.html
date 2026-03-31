@@ -84,6 +84,7 @@
             <th>Can Size (Liters)</th>
             <th>Quantity</th>
             <th>Total Liters</th>
+            <th>Container Status</th>
             <th>❌</th>
           </tr>
         </thead>
@@ -93,7 +94,7 @@
               [formGroupName]="i">
 
             <td>
-              <select formControlName="size">
+              <select formControlName="size" (change)="validateContainers()">
                 <option value="">Select Size</option>
                 <option [value]="1">1 L</option>
                 <option [value]="4">4 L</option>
@@ -103,7 +104,7 @@
             </td>
 
             <td>
-              <input type="number" formControlName="count">
+              <input type="number" formControlName="count" (input)="validateContainers()">
             </td>
 
             <td>
@@ -112,6 +113,16 @@
                 (pack.get('count')?.value || 0)
               }}
             </td>
+
+            <td>
+              <span *ngIf="containerStatus[i]?.ok" class="status-ok">
+                ✔ Available
+              </span>
+
+              <span *ngIf="!containerStatus[i]?.ok" class="status-low">
+                ❌ {{ containerStatus[i]?.available || 0 }}/{{ containerStatus[i]?.required }}
+              </span>
+          </td>
 
             <td>
              <button
@@ -145,6 +156,10 @@
         </p>
       </div>
 
+    </div>
+
+    <div *ngIf="hasContainerIssue()" class="warning">
+      ⚠ Insufficient containers available
     </div>
 
     <!-- Actions -->

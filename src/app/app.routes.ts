@@ -17,6 +17,7 @@ import {
 } from "./supplier-transaction-details/supplier-transaction-details.component";
 import { MaterialCategoryManagementComponent } from './material-category-management/material-category-management.component';
 import { PaintInventoryComponent } from './paint-inventory/paint-inventory.component';
+import { ContainerInventoryComponent } from './container-inventory/container-inventory.component';
 
 export const routes: Routes = [
   {
@@ -87,6 +88,10 @@ export const routes: Routes = [
   {
     path: 'paint/inventory',
     component: PaintInventoryComponent
+  },
+  {
+    path: 'paint/container-inventory',
+    component: ContainerInventoryComponent
   }
 
 ];

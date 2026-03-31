@@ -49,12 +49,30 @@ th {
   color: #166534;
 }
 button {
-  background-color: #2563eb;
-  color: #ffffff;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
-  transition: background-color 0.2s ease;
+  margin-right: 6px;
+}
+
+/* Edit */
+.btn-edit {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #1d4ed8;
+}
+
+/* Delete */
+.btn-delete {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
 }

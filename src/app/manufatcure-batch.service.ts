@@ -10,6 +10,7 @@ export class ManufactureBatchService {
 
   private batchUrl = `${this.baseUrl}/api/v1/paint-batches`;
   private formulaUrl = `${this.baseUrl}/api/v1/paint-formula`;
+  private containerUrl = `${this.baseUrl}/api/v1/container-inventory`;
   
 
   constructor(private http: HttpClient) {}
@@ -54,5 +55,25 @@ export class ManufactureBatchService {
 
   getInventory() {
      return this.http.get<any[]>(`${this.batchUrl}/inventory/paint`);
+    }
+
+    getContainers() {
+      console.log('Fetching container inventory...');
+      return this.http.get<any[]>(`${this.containerUrl}/all`);
+    }
+
+    updateContainer(container: any) {
+      return this.http.post(
+        `${this.containerUrl}/update`,
+        container
+      );
+    }
+
+    addContainer(data: any) {
+      return this.http.post(`${this.containerUrl}`, data);
+    }
+
+    deleteContainer(size: number) {
+      return this.http.delete(`${this.containerUrl}/containers/${size}`);
     }
 }

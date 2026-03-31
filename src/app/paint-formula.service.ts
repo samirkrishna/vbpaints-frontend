@@ -42,6 +42,7 @@ export class PaintFormulaService {
     );
   }
 
-
-
+  deleteBatch(id: number) {
+    return this.http.delete(`${this.apiUrl}/api/v1/paint-batches/${id}`);
+  }
 }

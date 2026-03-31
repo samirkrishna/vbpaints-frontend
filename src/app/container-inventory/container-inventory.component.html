@@ -1,0 +1,51 @@
+<div class="container">
+
+  <h2>🧴 Empty Container Inventory</h2>
+
+  <!-- ➕ ADD SECTION -->
+  <div class="add-section">
+    <select [(ngModel)]="newContainer.size">
+      <option [ngValue]="null">Select Size</option>
+      <option [ngValue]="1">1 L</option>
+      <option [ngValue]="4">4 L</option>
+      <option [ngValue]="10">10 L</option>
+      <option [ngValue]="20">20 L</option>
+    </select>
+
+    <input type="number"
+           placeholder="Quantity"
+           [(ngModel)]="newContainer.quantity" />
+
+    <button class="btn add" (click)="addContainer()">
+      + Add
+    </button>
+  </div>
+
+  <!-- 📋 TABLE -->
+  <table *ngIf="containers.length > 0">
+    <thead>
+      <tr>
+        <th>Size (L)</th>
+        <th>Available Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let c of containers">
+        <td>{{ c.size }} L</td>
+        <td>{{ c.quantity }}</td>
+        <td>
+          <button class="btn delete" (click)="deleteContainer(c.size)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="containers.length === 0" class="empty">
+    No containers available
+  </div>
+
+</div>

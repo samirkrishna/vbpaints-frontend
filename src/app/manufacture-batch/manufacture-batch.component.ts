@@ -39,6 +39,9 @@ export class ManufactureBatchComponent implements OnInit {
   isEditMode = false;
   batchId!: number;
 
+  containerStatus: any[] = [];
+  containerInventory: any[] = [];
+
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +65,8 @@ export class ManufactureBatchComponent implements OnInit {
     this.addPack(); 
 
     this.loadPaintFormulas();
+
+    this.loadContainers();
 
    
       // ✅ EDIT MODE DETECTION
@@ -167,6 +172,8 @@ onPaintChange(): void {
       .subscribe(res => {
         this.materialStatus = res;
         this.canManufacture = res.every(r => r.sufficient);
+
+        this.validateContainers();
       });
   }
 
@@ -299,6 +306,8 @@ get isManufactureDisabled(): boolean {
   const totalLiters = batchSize * this.LITERS_PER_BATCH;
 
   if (this.getTotalPacked() !== totalLiters) return true;
+
+  if (this.containerStatus.some(c => !c.ok)) return true;
   return false;
 }
 
@@ -310,6 +319,34 @@ getTotalPacked(): number {
   }, 0);
 }
 
+loadContainers(): void {
+  this.service.getContainers().subscribe(res => {
+    this.containerInventory = res;
+    this.validateContainers(); // Re-validate containers after loading
+  });
+}
 
+validateContainers(): void {
+  this.containerStatus = this.packs.controls.map(pack => {
+    const size = pack.get('size')?.value;
+    const count = pack.get('count')?.value;
+
+    const container = this.containerInventory.find(c => c.size == size);
+
+    if (!container) {
+      return { ok: false, message: 'No data' };
+    }
+
+    return {
+      ok: container.quantity >= count,
+      available: container.quantity,
+      required: count
+    };
+  });
+}
+
+hasContainerIssue(): boolean {
+  return this.containerStatus?.some(c => !c.ok);
+}
 
 }
