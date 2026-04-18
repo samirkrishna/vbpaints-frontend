@@ -73,7 +73,25 @@ export class PaintFormulaManagementComponent {
       return;
     }
 
-    this.service.create(this.formulaForm.value).subscribe({
+      const formValue = this.formulaForm.value;
+
+      const payload = {
+        ...formValue,
+        active: true, // ✅ required by backend
+        items: formValue.items.map((item: any) => {
+          const material = this.rawMaterials.find(rm => rm.id == item.rawMaterialId);
+
+          return {
+            rawMaterialId: item.rawMaterialId, // optional (keep if backend supports)
+            rawMaterialName: material?.name || null, // ✅ IMPORTANT
+            quantity: item.quantity,
+            unit: item.unit,
+            notes: item.notes
+          };
+        })
+      };
+
+    this.service.create(payload).subscribe({
       next: () => {
         this.toast.success('Paint formula saved successfully');
         this.formulaForm.reset();
