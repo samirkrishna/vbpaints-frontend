@@ -9,7 +9,6 @@
       <input placeholder="Vendor Name" [(ngModel)]="newVendor.name">
       <input placeholder="Contact Number" [(ngModel)]="newVendor.contactNo">
       <input placeholder="Address" [(ngModel)]="newVendor.address">
-      <input  type="date" placeholder="Date" [(ngModel)]="newVendor.createdDate">
       <button class="btn-primary" (click)="addVendor()">Add</button>
     </div>
   </div>
@@ -33,10 +32,6 @@
         Address <span class="sort-icon">{{ getSortIcon('address') }}</span>
       </th>
 
-      <th (click)="sortBy('createdDate')">
-        Date <span class="sort-icon">{{ getSortIcon('createdDate') }}</span>
-      </th>
-
       <th>Actions</th>
     </tr>
     </thead>
@@ -56,13 +51,6 @@
       <td>
         <input *ngIf="v.isEdit" [(ngModel)]="v.address">
         <span *ngIf="!v.isEdit">{{ v.address }}</span>
-      </td>
-
-      <td>
-        <input *ngIf="v.isEdit" type="date" [(ngModel)]="v.createdDate">
-        <span *ngIf="!v.isEdit">
-    {{ v.createdDate | date:'dd-MM-yyyy' }}
-  </span>
       </td>
 
       <td class="actions">

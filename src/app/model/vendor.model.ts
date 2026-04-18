@@ -3,6 +3,5 @@ export interface Vendor {
   name: string;
   contactNo: string;
   address: string;
-  createdDate: string;
   isEdit?: boolean;
 }

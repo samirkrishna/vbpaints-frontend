@@ -21,8 +21,7 @@ export class VendorComponent implements OnInit {
   newVendor: Vendor = {
     name: '',
     contactNo: '',
-    address: '',
-    createdDate: ''
+    address: ''
   };
 
   constructor(private vendorService: VendorService, private toast: ToastService) {}
@@ -54,7 +53,7 @@ export class VendorComponent implements OnInit {
     this.vendorService.create(this.newVendor).subscribe({
       next: vendor => {
         this.vendors.push(vendor);
-        this.newVendor = { name: '', contactNo: '', address: '', createdDate: '' };
+        this.newVendor = { name: '', contactNo: '', address: '' };
       },
       error: () => this.toast.error('Failed to add vendor')
     });
