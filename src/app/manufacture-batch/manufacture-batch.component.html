@@ -148,12 +148,6 @@
 
       <div class="pack-summary">
         <p><b>Total Packed:</b> {{ totalPackedLiters }} L</p>
-        <p><b>Remaining:</b> {{ remainingLiters }} L</p>
-
-        <p class="warning"
-          *ngIf="!isPackingValid()">
-          ❌ Packed liters exceed batch size!
-        </p>
       </div>
 
     </div>

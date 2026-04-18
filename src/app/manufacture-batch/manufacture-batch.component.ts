@@ -34,8 +34,6 @@ export class ManufactureBatchComponent implements OnInit {
 
   batchInfo: any = {};
 
-  readonly LITERS_PER_BATCH = 450;
-
   isEditMode = false;
   batchId!: number;
 
@@ -235,7 +233,7 @@ openConfirmation(): void {
       p => p.id == this.form.get('paintFormulaId')?.value
     )?.paintName,
     batchNumber: this.form.get('batchNumber')?.value,
-    quantityProduced: `${this.LITERS_PER_BATCH*batchSize} liters`,
+    quantityProduced: `${this.totalPackedLiters} liters`,
   };
 
   this.showConfirmation = true;
@@ -282,16 +280,13 @@ get totalPackedLiters(): number {
 
 get remainingLiters(): number {
   const batchSize = this.form.get('batchSize')?.value || 0;
-  const totalLiters = batchSize * this.LITERS_PER_BATCH; 
-  return totalLiters - this.totalPackedLiters;
+  return batchSize - this.totalPackedLiters;
 }
 
 
 isPackingValid(): boolean {
   const batchSize = this.form.get('batchSize')?.value || 0;
-  const totalLiters = batchSize * this.LITERS_PER_BATCH;
-
-  return this.totalPackedLiters <= totalLiters;
+  return this.totalPackedLiters <= batchSize;
 }
 
 get isManufactureDisabled(): boolean {
@@ -302,10 +297,8 @@ get isManufactureDisabled(): boolean {
 
   if (this.packs.length === 0) return true;
 
-  const batchSize = this.form.get('batchSize')?.value || 0;
-  const totalLiters = batchSize * this.LITERS_PER_BATCH;
-
-  if (this.getTotalPacked() !== totalLiters) return true;
+  // const batchSize = this.form.get('batchSize')?.value || 0;
+  // if (this.getTotalPacked() != batchSize) return true;
 
   if (this.containerStatus.some(c => !c.ok)) return true;
   return false;
