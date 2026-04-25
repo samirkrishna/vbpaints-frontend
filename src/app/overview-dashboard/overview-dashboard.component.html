@@ -19,6 +19,11 @@
     </div>
 
     <div class="kpi-card">
+      <span>Paint Batches Manufactured (Lifetime)</span>
+      <h3>{{ kpis.lifetimeBatches }}</h3>
+    </div>
+
+    <div class="kpi-card">
       <span>Recent Purchases</span>
       <h3>{{ kpis.recentPurchasesCount }}</h3>
     </div>
@@ -26,7 +31,28 @@
     <div class="kpi-card">
       <span>Monthly Sales</span>
       <h3 class="sales">
-        ₹{{ kpis.monthlySales | number:'1.0-0' }}
+        {{ kpis.monthlySales | currency:'INR':'symbol':'1.0-0' }}
+      </h3>
+    </div>
+
+    <div class="kpi-card">
+      <span>Lifetime Sales</span>
+      <h3 class="sales">
+        {{ kpis.lifetimeSales | currency:'INR':'symbol':'1.0-0' }}
+      </h3>
+    </div>
+
+    <div class="kpi-card">
+      <span>Raw Material Purchases (This Month)</span>
+      <h3 class="sales">
+        {{ kpis.monthlyPurchases  | currency:'INR':'symbol':'1.0-0' }}
+      </h3>
+    </div>
+
+    <div class="kpi-card">
+      <span>Raw Material Purchases (All Time)</span>
+      <h3 class="sales">
+        {{ kpis.lifetimePurchases  | currency:'INR':'symbol':'1.0-0' }}
       </h3>
     </div>
 

@@ -4,4 +4,8 @@ export interface DashboardKpi {
   batchesThisMonth: number;
   recentPurchasesCount: number;
   monthlySales: number;
+  lifetimeSales: number;
+  lifetimeBatches: number;
+  monthlyPurchases: number;
+  lifetimePurchases: number;
 }

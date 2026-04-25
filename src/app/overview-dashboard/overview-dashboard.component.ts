@@ -14,7 +14,8 @@ import {PaintBatch} from "../model/paint-batch.model";
   standalone: true,
   imports: [CommonModule, DatePipe],
   templateUrl: './overview-dashboard.component.html',
-  styleUrl: './overview-dashboard.component.css'
+  styleUrl: './overview-dashboard.component.css',
+  
 })
 export class OverviewDashboardComponent implements OnInit {
 

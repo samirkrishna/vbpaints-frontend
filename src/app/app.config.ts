@@ -1,4 +1,4 @@
-import { ApplicationConfig ,importProvidersFrom} from '@angular/core';
+import { ApplicationConfig ,importProvidersFrom, LOCALE_ID } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
@@ -26,5 +26,6 @@ export const appConfig: ApplicationConfig = {
       useClass: LoadingInterceptor,
       multi: true
     },
+    { provide: LOCALE_ID, useValue: 'en-IN' }
   ]
 };
