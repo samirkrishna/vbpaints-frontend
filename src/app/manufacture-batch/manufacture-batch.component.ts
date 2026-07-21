@@ -59,14 +59,14 @@ export class ManufactureBatchComponent implements OnInit {
 
       packs: this.fb.array([])
     });
-    
-    this.addPack(); 
+
+    this.addPack();
 
     this.loadPaintFormulas();
 
     this.loadContainers();
 
-   
+
       // ✅ EDIT MODE DETECTION
     this.route.params.subscribe(params => {
       if (params['id']) {
@@ -113,7 +113,7 @@ export class ManufactureBatchComponent implements OnInit {
       error: () => this.toast.error('Failed to load paint formulas')
     });
   }
-  
+
 
   loadBatchDetails(): void {
   this.service.getBatchDetails(this.batchId).subscribe({
@@ -136,7 +136,8 @@ export class ManufactureBatchComponent implements OnInit {
       packs.forEach((p: any) => {
         this.packs.push(this.fb.group({
           size: [p.size, Validators.required],
-          count: [p.count, [Validators.required, Validators.min(1)]]
+          count: [p.count, [Validators.required, Validators.min(1)]],
+          companyName: [p.companyName, Validators.required]
         }));
       });
 
@@ -259,7 +260,8 @@ addPack(): void {
   this.packs.push(
     this.fb.group({
       size: [1, Validators.required],
-      count: [1, [Validators.required, Validators.min(1)]]
+      count: [1, [Validators.required, Validators.min(1)]],
+      companyName: ['', Validators.required]
     })
   );
 }
@@ -323,8 +325,11 @@ validateContainers(): void {
   this.containerStatus = this.packs.controls.map(pack => {
     const size = pack.get('size')?.value;
     const count = pack.get('count')?.value;
+    const companyName = pack.get('companyName')?.value;
 
-    const container = this.containerInventory.find(c => c.size == size);
+    const container = this.containerInventory.find(
+      c => c.size == size && c.companyName === companyName
+    );
 
     if (!container) {
       return { ok: false, message: 'No data' };
@@ -336,6 +341,11 @@ validateContainers(): void {
       required: count
     };
   });
+}
+
+/** 🔹 Companies that have stock for the selected can size, for the dropdown */
+companiesForSize(size: number): any[] {
+  return this.containerInventory.filter(c => c.size == size);
 }
 
 hasContainerIssue(): boolean {
