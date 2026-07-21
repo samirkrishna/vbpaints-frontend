@@ -8,16 +8,16 @@
       <div class="form-group">
         <label>Paint Name</label>
         <select
-        formControlName="paintFormulaId"
-        [disabled]="paintFormulas.length === 0"
-        (change)="onPaintChange()">
-        <option value="">Select Paint</option>
+          formControlName="paintFormulaId"
+          [disabled]="paintFormulas.length === 0"
+          (change)="onPaintChange()">
+          <option value="">Select Paint</option>
 
-        <option
+          <option
             *ngFor="let p of paintFormulas"
             [value]="p.id">
             {{ p.paintName }}
-        </option>
+          </option>
         </select>
       </div>
 
@@ -47,24 +47,24 @@
     <!-- Formula Breakdown -->
     <table *ngIf="materialStatus.length > 0">
       <thead>
-        <tr>
-          <th>Raw Material</th>
-          <th>Required Qty</th>
-          <th>Available Qty</th>
-          <th>Status</th>
-        </tr>
+      <tr>
+        <th>Raw Material</th>
+        <th>Required Qty</th>
+        <th>Available Qty</th>
+        <th>Status</th>
+      </tr>
       </thead>
 
       <tbody>
-        <tr *ngFor="let m of materialStatus">
-          <td>{{ m.rawMaterialName }}</td>
-          <td>{{ m.requiredQty }}</td>
-          <td>{{ m.availableQty }}</td>
-          <td [class.status-ok]="m.sufficient"
-              [class.status-low]="!m.sufficient">
-            {{ m.sufficient ? '✅ OK' : '❌ Low' }}
-          </td>
-        </tr>
+      <tr *ngFor="let m of materialStatus">
+        <td>{{ m.rawMaterialName }}</td>
+        <td>{{ m.requiredQty }}</td>
+        <td>{{ m.availableQty }}</td>
+        <td [class.status-ok]="m.sufficient"
+            [class.status-low]="!m.sufficient">
+          {{ m.sufficient ? '✅ OK' : '❌ Low' }}
+        </td>
+      </tr>
       </tbody>
     </table>
 
@@ -80,61 +80,72 @@
 
       <table>
         <thead>
-          <tr>
-            <th>Can Size (Liters)</th>
-            <th>Quantity</th>
-            <th>Total Liters</th>
-            <th>Container Status</th>
-            <th>❌</th>
-          </tr>
+        <tr>
+          <th>Can Size (Liters)</th>
+          <th>Company Name</th>
+          <th>Quantity</th>
+          <th>Total Liters</th>
+          <th>Container Status</th>
+          <th>❌</th>
+        </tr>
         </thead>
 
         <tbody formArrayName="packs">
-          <tr *ngFor="let pack of packs.controls; let i = index"
-              [formGroupName]="i">
+        <tr *ngFor="let pack of packs.controls; let i = index"
+            [formGroupName]="i">
 
-            <td>
-              <select formControlName="size" (change)="validateContainers()">
-                <option value="">Select Size</option>
-                <option [value]="1">1 L</option>
-                <option [value]="4">4 L</option>
-                <option [value]="10">10 L</option>
-                <option [value]="20">20 L</option>
-              </select>
-            </td>
+          <td>
+            <select formControlName="size" (change)="validateContainers()">
+              <option value="">Select Size</option>
+              <option [value]="1">1 L</option>
+              <option [value]="4">4 L</option>
+              <option [value]="10">10 L</option>
+              <option [value]="20">20 L</option>
+            </select>
+          </td>
 
-            <td>
-              <input type="number" formControlName="count" (input)="validateContainers()">
-            </td>
+          <td>
+            <select formControlName="companyName" (change)="validateContainers()">
+              <option value="">Select Company</option>
+              <option *ngFor="let c of companiesForSize(pack.get('size')?.value)"
+                      [value]="c.companyName">
+                {{ c.companyName }}
+              </option>
+            </select>
+          </td>
 
-            <td>
-              {{
-                (pack.get('size')?.value || 0) *
-                (pack.get('count')?.value || 0)
-              }}
-            </td>
+          <td>
+            <input type="number" formControlName="count" (input)="validateContainers()">
+          </td>
 
-            <td>
+          <td>
+            {{
+            (pack.get('size')?.value || 0) *
+            (pack.get('count')?.value || 0)
+            }}
+          </td>
+
+          <td>
               <span *ngIf="containerStatus[i]?.ok" class="status-ok">
                 ✔ Available
               </span>
 
-              <span *ngIf="!containerStatus[i]?.ok" class="status-low">
+            <span *ngIf="!containerStatus[i]?.ok" class="status-low">
                 ❌ {{ containerStatus[i]?.available || 0 }}/{{ containerStatus[i]?.required }}
               </span>
           </td>
 
-            <td>
-             <button
-                type="button"
-                class="btn btn-danger"
-                (click)="removePack(i)"
-                [disabled]="packs.length === 1">
-                ✖
-              </button>
-            </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="removePack(i)"
+              [disabled]="packs.length === 1">
+              ✖
+            </button>
+          </td>
 
-          </tr>
+        </tr>
         </tbody>
       </table>
 
@@ -165,19 +176,19 @@
         Cancel
       </button>
 
-     <button
-      type="button"
-      class="btn"
-      [class.btn-primary]="!isManufactureDisabled"
-      [class.btn-disabled]="isManufactureDisabled"
-      [disabled]="isManufactureDisabled"
-      (click)="openConfirmation()">
-      Manufacture Batch
-    </button>
-    <!-- <div *ngIf="getTotalPacked() !== form.get('batchSize')?.value"
-     class="warning">
-      ⚠ Total packed liters must exactly match batch size
-    </div> -->
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="!isManufactureDisabled"
+        [class.btn-disabled]="isManufactureDisabled"
+        [disabled]="isManufactureDisabled"
+        (click)="openConfirmation()">
+        Manufacture Batch
+      </button>
+      <!-- <div *ngIf="getTotalPacked() !== form.get('batchSize')?.value"
+       class="warning">
+        ⚠ Total packed liters must exactly match batch size
+      </div> -->
     </div>
   </form>
 </div>

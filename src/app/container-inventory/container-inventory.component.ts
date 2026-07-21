@@ -17,7 +17,8 @@ export class ContainerInventoryComponent implements OnInit {
 
   newContainer = {
     size: null,
-    quantity: null
+    quantity: null,
+    companyName: ''
   };
 
   constructor(
@@ -36,25 +37,25 @@ export class ContainerInventoryComponent implements OnInit {
   }
 
   addContainer() {
-    if (!this.newContainer.size || !this.newContainer.quantity) {
-      this.toast.error('Please enter size and quantity');
+    if (!this.newContainer.size || !this.newContainer.quantity || !this.newContainer.companyName?.trim()) {
+      this.toast.error('Please enter size, quantity and company name');
       return;
     }
 
     this.service.addContainer(this.newContainer).subscribe({
       next: () => {
         this.toast.success('Container added');
-        this.newContainer = { size: null, quantity: null };
+        this.newContainer = { size: null, quantity: null, companyName: '' };
         this.loadContainers();
       },
       error: () => this.toast.error('Failed to add container')
     });
   }
 
-  deleteContainer(size: number) {
+  deleteContainer(size: number, companyName: string) {
     if (!confirm('Are you sure you want to delete this container?')) return;
 
-    this.service.deleteContainer(size).subscribe({
+    this.service.deleteContainer(size, companyName).subscribe({
       next: () => {
         this.toast.success('Deleted successfully');
         this.loadContainers();

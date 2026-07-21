@@ -16,6 +16,10 @@
            placeholder="Quantity"
            [(ngModel)]="newContainer.quantity" />
 
+    <input type="text"
+           placeholder="Company Name"
+           [(ngModel)]="newContainer.companyName" />
+
     <button class="btn add" (click)="addContainer()">
       + Add
     </button>
@@ -24,23 +28,25 @@
   <!-- 📋 TABLE -->
   <table *ngIf="containers.length > 0">
     <thead>
-      <tr>
-        <th>Size (L)</th>
-        <th>Available Quantity</th>
-        <th>Action</th>
-      </tr>
+    <tr>
+      <th>Size (L)</th>
+      <th>Company Name</th>
+      <th>Available Quantity</th>
+      <th>Action</th>
+    </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let c of containers">
-        <td>{{ c.size }} L</td>
-        <td>{{ c.quantity }}</td>
-        <td>
-          <button class="btn delete" (click)="deleteContainer(c.size)">
-            Delete
-          </button>
-        </td>
-      </tr>
+    <tr *ngFor="let c of containers">
+      <td>{{ c.size }} L</td>
+      <td>{{ c.companyName }}</td>
+      <td>{{ c.quantity }}</td>
+      <td>
+        <button class="btn delete" (click)="deleteContainer(c.size, c.companyName)">
+          Delete
+        </button>
+      </td>
+    </tr>
     </tbody>
   </table>
 
